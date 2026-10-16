@@ -111,6 +111,18 @@ If you change `project.yml` ([XcodeGen](https://github.com/yonaskolb/XcodeGen)),
 3. In **Head calibration** on the iPhone, tap ① while looking straight ahead, then ② while looking at your Watch.
 4. Tap **Calibrate palm**, then turn your palm up and look at it during the Watch countdown.
 
+## FAQ
+
+### Is it on TestFlight or the App Store?
+Not yet. The features are still changing a lot, and going through TestFlight would slow down how often I can ship updates. TestFlight builds also need Apple's beta review and a build without the private API. Once things settle down, I plan to put it on TestFlight so it's easier to try.
+
+### Does it run all the time?
+watchOS doesn't let apps run in the background forever, so there are two options:
+- **Default:** keeps detecting for up to an hour after you open the app.
+- **Workout mode (optional):** keeps running until you turn it off. It uses more battery, and the system turns on the heart-rate sensor. Nothing is saved to Health.
+
+In my experience workout mode drains the battery noticeably, so I use the default. I rarely go an hour without checking my Watch anyway.
+
 ## How it works
 
 - **Wrist pose** (`Watch/Core/WristGestureDetector.swift`): derives forearm roll and elevation from the gravity vector to detect "looking at the watch face", "palm up / looking at palm", and "quick flip back".
