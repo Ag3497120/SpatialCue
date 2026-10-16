@@ -30,8 +30,8 @@ enum HapticPattern: String, CaseIterable, Identifiable, Codable {
     var explanation: String {
         switch self {
         case .digits:
-            return tr("Apple Watch の Taptic タイムと同じ考え方です。10時間単位で長いタップ、1時間単位で短いタップ。少し間をあけて、10分単位で長いタップ、1分単位で短いタップ。12／24時間制は Watch の設定に合わせます。",
-                      "Like Taptic Time on Apple Watch: a long tap for every 10 hours and a short tap for every hour, then after a pause, a long tap for every 10 minutes and a short tap for every minute. Uses your Watch's 12/24-hour setting.")
+            return tr("Apple Watch の Taptic タイムと同じ考え方です。強さは同じで、10時間単位は長いタップ、1時間単位は短いタップ。少し間をあけて、10分単位は長いタップ、1分単位は短いタップ。12／24時間制は Watch の設定に合わせます。",
+                      "Like Taptic Time on Apple Watch: same strength, a long tap for every 10 hours and a short tap for every hour, then after a pause, a long tap for every 10 minutes and a short tap for every minute. Uses your Watch's 12/24-hour setting.")
         case .morse:
             return tr("時・分の各桁をモールス符号で。十の位は強い振動、一の位は弱い振動。短点 = 1回、長点 = 3連打。",
                       "Each digit of the hour and minute in Morse code. Tens are strong taps, ones are light taps. Dot = 1 tap, dash = 3 quick taps.")

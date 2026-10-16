@@ -55,9 +55,10 @@ final class TimeTeller {
     typealias Step = (WKHapticType?, Double)
 
     /// Apple Watch の Taptic タイム「数字通り」に近づけた振動。
-    /// 長いタップ = 一続きの強い振動（notification）、短いタップ = 軽いクリック。
+    /// Taptic タイムと同じく強さはそろえ、1 回の長さだけを変える:
+    /// 短いタップ = クリック 1 回、長いタップ = 同じクリックを細かく続けた約 0.3 秒の振動。
     /// 時は Watch の 12／24 時間制の設定に合わせる。0 の桁は鳴らさない。
-    /// （watchOS では Core Haptics が使えないので、用意された振動の種類で近づけている）
+    /// （watchOS では Core Haptics が使えず長さを指定できないので、クリックを連ねて長さを作っている）
     static func digitsSequence(_ d: Date) -> [Step] {
         let c = Calendar.current.dateComponents([.hour, .minute], from: d)
         var h = c.hour ?? 0
@@ -68,16 +69,23 @@ final class TimeTeller {
         }
         var seq: [Step] = []
         func long(_ n: Int) {
-            for _ in 0..<n { seq.append((.notification, 0.85)) }
+            for _ in 0..<n {
+                for _ in 0..<(longTapClicks - 1) { seq.append((.click, clickInterval)) }
+                seq.append((.click, 0.45))
+            }
         }
         func short(_ n: Int) {
-            for _ in 0..<n { seq.append((.click, 0.32)) }
+            for _ in 0..<n { seq.append((.click, 0.35)) }
         }
         long(h / 10); short(h % 10)
         seq.append((nil, 0.8))
         long(m / 10); short(m % 10)
         return seq
     }
+
+    /// 長いタップを作るクリックの数と間隔（7 回 × 0.045 秒 ≒ 0.3 秒）
+    static let longTapClicks = 7
+    static let clickInterval = 0.045
 
     /// 端末の時刻表示が 24 時間制か
     static var uses24Hour: Bool {
