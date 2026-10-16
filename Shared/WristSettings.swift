@@ -30,12 +30,24 @@ enum HapticPattern: String, CaseIterable, Identifiable, Codable {
     var explanation: String {
         switch self {
         case .digits:
-            return tr("10時間単位で長いタップ、続けて1時間単位で短いタップ。そのあと10分単位で長いタップ、1分単位で短いタップ。",
-                      "A long tap for every 10 hours, then a short tap for every hour. Then a long tap for every 10 minutes and a short tap for every minute.")
+            return tr("Apple Watch の Taptic タイムと同じ考え方です。10時間単位で長いタップ、1時間単位で短いタップ。少し間をあけて、10分単位で長いタップ、1分単位で短いタップ。12／24時間制は Watch の設定に合わせます。",
+                      "Like Taptic Time on Apple Watch: a long tap for every 10 hours and a short tap for every hour, then after a pause, a long tap for every 10 minutes and a short tap for every minute. Uses your Watch's 12/24-hour setting.")
         case .morse:
             return tr("時・分の各桁をモールス符号で。十の位は強い振動、一の位は弱い振動。短点 = 1回、長点 = 3連打。",
                       "Each digit of the hour and minute in Morse code. Tens are strong taps, ones are light taps. Dot = 1 tap, dash = 3 quick taps.")
         }
+    }
+}
+
+/// 読み上げと効果音を鳴らす場所
+enum SoundOutput: String, CaseIterable, Identifiable, Codable {
+    case auto, watch
+
+    var id: String { rawValue }
+
+    var title: String {
+        self == .auto ? tr("iPhone（つながっていなければ Watch）", "iPhone (Watch if not connected)")
+                      : tr("Apple Watch のスピーカー", "Apple Watch speaker")
     }
 }
 
@@ -74,10 +86,11 @@ struct WristSettings: Codable, Equatable {
 
     // 読み上げ
     var speechEnabled = true            // オフにすると読み上げを一切しない（効果音と振動は残る）
+    var soundOutput = SoundOutput.auto
 
     // 時刻
     var timeStyle = TimeAnnounceStyle.both
-    var hapticPattern = HapticPattern.morse
+    var hapticPattern = HapticPattern.digits
 
     // 常駐
     var workoutMode = false

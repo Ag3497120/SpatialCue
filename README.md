@@ -50,9 +50,11 @@ All settings live in the iPhone app and sync to the Watch automatically.
 
 ### Telling the time
 - Choose **Vibration**, **Voice**, or **Both**. Speech can also be turned off entirely.
-- There are two vibration patterns, both 24-hour:
-  - **Digits** (same idea as Apple Watch Taptic Time): long taps for the tens digit, short taps for the ones digit.
+- Speech and the "pop" can play on the **iPhone** (speaker or any headphones; falls back to the Watch when the iPhone isn't connected) or on the **Apple Watch speaker**.
+- There are two vibration patterns:
+  - **Digits** (default, modeled on Apple Watch Taptic Time): long taps for the tens digit and short taps for the ones digit, hours then minutes. Uses your Watch's 12/24-hour setting.
   - **Morse code**: each digit in Morse code. Tens are strong taps, ones are light taps.
+- watchOS doesn't let apps build custom haptics (no Core Haptics), so the patterns are made from the built-in haptic types. The Watch can only vibrate while its screen is on, so a long pattern can be cut short if the screen turns off.
 
 ### Safety (iPhone settings)
 

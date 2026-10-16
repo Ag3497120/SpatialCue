@@ -84,7 +84,11 @@ final class AppModel: ObservableObject {
     var headphonesOn: Bool { phone.headphonesOn || headLink.directConnected }
 
     /// 音を出してよいか（安全装置をオンにしたときだけ、イヤホンが無いと振動だけ）
-    var canUseSound: Bool { headphonesOn || !settings.vibrationOnlyWithoutHeadphones }
+    var canUseSound: Bool {
+        if !settings.vibrationOnlyWithoutHeadphones { return true }
+        // Watch のスピーカーで鳴らす設定ならイヤホンではないので鳴らさない
+        return settings.soundOutput == .auto && headphonesOn
+    }
 
     init() {
         palmCalibration = UserDefaults.standard.data(forKey: "palmCalibration")
@@ -359,9 +363,14 @@ final class AppModel: ObservableObject {
         stopSpeaking()
     }
 
-    /// 読み上げ: iPhone（AirPods）→ VoiceOver → 時計本体 の順。AirPods が無ければ設定により鳴らさない
+    /// 読み上げ: 出力先が Watch ならそのまま Watch のスピーカー。
+    /// 自動なら iPhone → VoiceOver → Watch のスピーカー の順
     func speak(_ text: String) {
         guard canUseSound, settings.speechEnabled else { return }
+        if settings.soundOutput == .watch {
+            teller.speakLocally(text)
+            return
+        }
         if phone.speak(text) { return }
         if WKAccessibilityIsVoiceOverRunning() {
             AccessibilityNotification.Announcement(text).post()
@@ -378,7 +387,10 @@ final class AppModel: ObservableObject {
     private func pop() {
         WKInterfaceDevice.current().play(.click)
         guard canUseSound else { return }
-        if !phone.pop() { sfx.playPop() }
+        if settings.soundOutput == .watch || !phone.pop() {
+            TimeTeller.activateSpeaker()
+            sfx.playPop()
+        }
     }
 
     private func setSystemVolume(_ v: Double) {

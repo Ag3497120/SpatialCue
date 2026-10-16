@@ -14,6 +14,7 @@ struct SpatialCuePhoneApp: App {
     }
 }
 
+/// トップ画面: 状態とよく使う設定だけ。残りは分類ごとの画面へ
 struct PhoneContentView: View {
     @EnvironmentObject private var hub: PhoneHub
 
@@ -21,124 +22,276 @@ struct PhoneContentView: View {
         NavigationStack {
             Form {
                 Section {
+                    StatusRow(title: tr("Apple Watch", "Apple Watch"),
+                              ok: hub.watchReachable,
+                              detail: hub.watchReachable ? tr("接続中", "Connected") : tr("未接続", "Not connected"))
+                    LabeledContent(tr("最後の操作", "Last action"), value: hub.lastCommand)
+                } footer: {
+                    Text(Edition.title)
+                }
+
+                Section {
                     Toggle(isOn: $hub.settings.gesturesEnabled) {
                         Label(tr("ジェスチャーを使う", "Use gestures"), systemImage: "hand.raised.fill")
                     }
-                } footer: {
-                    Text(tr("オフにすると、Watch のすべての空中操作（ピンチ・手のひら・払う）を止めます。",
-                            "Turn off to stop all air gestures on the Watch (pinch, palm, flick)."))
                 }
 
-                Section {
-                    Picker(tr("アプリの言語", "App language"), selection: $hub.settings.appLanguage) {
-                        ForEach(LanguageChoice.allCases) { Text($0.title).tag($0) }
-                    }
-                    Toggle(tr("読み上げ", "Speech"), isOn: $hub.settings.speechEnabled)
-                    if hub.settings.speechEnabled {
-                        Picker(tr("読み上げの言語", "Speech language"), selection: $hub.settings.speechLanguage) {
-                            ForEach(SpeechLanguageChoice.allCases) { Text($0.title).tag($0) }
-                        }
-                    }
-                } header: {
-                    Text(tr("言語と読み上げ", "Language & speech"))
-                } footer: {
-                    Text(tr("読み上げをオフにすると、時刻やメニューは振動と効果音だけで伝えます。",
-                            "With speech off, time and menus are conveyed only by vibration and sound effects."))
-                }
-
-                Section(tr("状態", "Status")) {
-                    LabeledContent(tr("版", "Edition"), value: Edition.title)
-                    status(tr("イヤホン", "Headphones"), hub.headphonesOn)
-                    LabeledContent(tr("音声の出力先", "Audio output"), value: hub.outputName)
-                    status(tr("AirPods（頭の向き）", "AirPods (head motion)"), hub.airPodsConnected)
-                    status(tr("Apple Watch アプリ", "Apple Watch app"), hub.watchAppInstalled)
-                    status(tr("Watch と通信中", "Connected to Watch"), hub.watchReachable)
-                    LabeledContent(tr("Watch の常駐", "Watch background"), value: hub.watchResidency)
-                    LabeledContent(tr("最後の操作", "Last action"), value: hub.lastCommand)
-                    LabeledContent(tr("モーションの許可", "Motion permission"), value: hub.authorization)
-                }
-
-                Section {
-                    Toggle(tr("イヤホン接続時のみ再生・曲送り", "Media controls only with headphones"),
-                           isOn: $hub.settings.mediaOnlyWithHeadphones)
-                    Toggle(tr("イヤホンが無いときは振動のみ", "Vibration only without headphones"),
-                           isOn: $hub.settings.vibrationOnlyWithoutHeadphones)
-                    Toggle(tr("腕を大きく動かしている間は無視", "Ignore while arm is moving"),
-                           isOn: $hub.settings.blockWhileMoving)
-                    slider(tr("音量の上限", "Max volume"), value: $hub.settings.maxVolume, in: 0.3...1, step: 0.05, percent: true)
-                } header: {
-                    Text(tr("安全装置", "Safety"))
-                } footer: {
-                    Text(tr("イヤホン（AirPods 以外も可）は外すと出力がスピーカーに戻るので、出力先がイヤホンのときを「装着中」とみなします。上の 2 つをオンにすると、イヤホンがないときは再生・曲送りをせず、読み上げや効果音の代わりに振動だけで知らせます。オフなら iPhone のスピーカーでも使えます。歩いたり走ったりして腕を振っている間の手首の衝撃は、ピンチとして扱いません。音量は上限を超えません。",
-                            "Headphones (any brand) switch the output back to the speaker when taken off, so SpatialCue treats them as worn while the output is headphones. With the two switches above on, media controls are ignored without headphones and the Watch vibrates instead of speaking. With them off, it also works through the iPhone speaker. Wrist impacts while swinging your arms aren't treated as pinches. The volume never goes above the limit."))
-                }
-
-                Section {
-                    Toggle(tr("メニューを省略（時計で直接操作）", "Skip the menu (control from the clock)"),
-                           isOn: $hub.settings.directMedia)
-                    if hub.settings.directMedia {
-                        LabeledContent(tr("ダブルタップ", "Double Tap"), value: MenuAction.playPause.title)
-                        LabeledContent(tr("右に払う", "Flick right"), value: MenuAction.nextTrack.title)
-                        LabeledContent(tr("左に払う", "Flick left"), value: MenuAction.previousTrack.title)
-                        LabeledContent(tr("Digital Crown", "Digital Crown"), value: tr("音量", "Volume"))
-                    } else {
-                        LabeledContent(tr("ピンチ1回", "Pinch once"), value: MenuAction.playPause.title)
-                        LabeledContent(tr("ピンチ2回", "Pinch twice"), value: MenuAction.nextTrack.title)
-                        LabeledContent(tr("ピンチ3回", "Pinch 3 times"), value: MenuAction.previousTrack.title)
-                    }
-                    if hub.mediaRemoteAvailable {
-                        Toggle(tr("他のアプリも操作（実験）", "Control other apps (experimental)"),
-                               isOn: $hub.settings.experimentalMediaRemote)
-                    }
-                    HStack {
-                        Button(MenuAction.playPause.title) { hub.perform(.playPause) }
-                        Spacer()
-                        Button(tr("前", "Prev")) { hub.perform(.previousTrack) }
-                        Button(tr("次", "Next")) { hub.perform(.nextTrack) }
-                    }
-                    .buttonStyle(.bordered)
-                } header: {
-                    Text(hub.settings.directMedia ? tr("音楽の操作（時計でピンチ）", "Music (pinch on the clock)")
-                                                  : tr("メニュー（時計でピンチ1回）", "Menu (pinch once on the clock)"))
-                } footer: {
-                    Text(tr("「メニューを省略」がオンなら、時刻を聞いた後の時計の状態で、ダブルタップで再生・停止、手首を右／左に払って曲送り／曲戻し、Digital Crown で音量を変えます（払う向きが逆なら「ジェスチャー」→「払う向きを反転」）。オフなら、ピンチ1回でメニューを開いてから回数で選びます。ミュージックアプリは公式の方法で操作します。Spotify など他のアプリは「他のアプリも操作」をオンにすると iOS 内部の非公開機能（MediaRemote）で操作を試み、効かない場合は音声の割り込みで一時停止させます（再開は元のアプリの対応しだい）。ボタンでここから試せます。",
-                            "With \"Skip the menu\" on, after hearing the time: Double Tap plays/pauses, flicking your wrist right/left skips forward/back, and the Digital Crown sets the volume (if the flick direction feels reversed, use Gestures → Invert flick direction). With it off, pinch once to open the menu, then pinch to choose. The Music app is controlled with the public API. For other apps such as Spotify, \"Control other apps\" tries iOS's private MediaRemote framework, and falls back to pausing them with an audio interruption (whether they resume depends on the app). Use the buttons to try it here."))
-                }
-
-                Section {
+                Section(tr("よく使う設定", "Quick settings")) {
                     Picker(tr("時刻の伝え方", "Tell time with"), selection: $hub.settings.timeStyle) {
                         ForEach(TimeAnnounceStyle.allCases) { Text($0.title).tag($0) }
                     }
-                    Picker(tr("振動のパターン", "Vibration pattern"), selection: $hub.settings.hapticPattern) {
-                        ForEach(HapticPattern.allCases) { Text($0.title).tag($0) }
+                    Toggle(tr("読み上げ", "Speech"), isOn: $hub.settings.speechEnabled)
+                    Picker(tr("音の出力先", "Sound output"), selection: $hub.settings.soundOutput) {
+                        ForEach(SoundOutput.allCases) { Text($0.title).tag($0) }
                     }
-                    Button(tr("Watch で試す", "Try on Watch")) { hub.sendCommand(.testTime) }
-                } header: {
-                    Text(tr("時刻", "Time"))
-                } footer: {
-                    Text(hub.settings.hapticPattern.explanation + "\n"
-                         + tr("「読み上げ」でも、読み上げがオフのときや AirPods が無いときは振動で伝えます。",
-                              "Even with \"Voice\", the time is vibrated when speech is off or AirPods aren't worn."))
+                    Button {
+                        hub.sendCommand(.testTime)
+                    } label: {
+                        Label(tr("Watch で時刻を試す", "Try the time on Watch"), systemImage: "applewatch.radiowaves.left.and.right")
+                    }
+                }
+
+                Section(tr("設定", "Settings")) {
+                    NavigationLink { TimeSettingsView() } label: {
+                        Label(tr("時刻と振動", "Time & haptics"), systemImage: "clock")
+                    }
+                    NavigationLink { SoundSettingsView() } label: {
+                        Label(tr("音と言語", "Sound & language"), systemImage: "speaker.wave.2")
+                    }
+                    NavigationLink { MusicSettingsView() } label: {
+                        Label(tr("音楽の操作", "Music controls"), systemImage: "music.note")
+                    }
+                    NavigationLink { GestureSettingsView() } label: {
+                        Label(tr("ジェスチャー", "Gestures"), systemImage: "hand.wave")
+                    }
+                    NavigationLink { SafetySettingsView() } label: {
+                        Label(tr("安全", "Safety"), systemImage: "checkmark.shield")
+                    }
+                    NavigationLink { HeadTrackingSettingsView() } label: {
+                        Label(tr("AirPods（任意）", "AirPods (optional)"), systemImage: "airpodspro")
+                    }
+                    NavigationLink { RunningSettingsView() } label: {
+                        Label(tr("動作と電池", "Running & battery"), systemImage: "battery.75percent")
+                    }
                 }
 
                 Section {
-                    Toggle(tr("頭の向きを判定に使う", "Use head tracking"), isOn: $hub.settings.useHeadTracking)
-                } header: {
-                    Text(tr("AirPods（任意）", "AirPods (optional)"))
-                } footer: {
-                    Text(tr("オフでも手首の動きだけで使えます。オンにすると、AirPods Pro／Max／第3世代以降の頭の向きで「手のひらを見ているか」を確かめ、うなずき（決定）・首振り（閉じる）も使えます。",
-                            "SpatialCue works with wrist motion alone. Turn this on to use AirPods Pro / Max / 3rd gen or later head tracking to check that you're looking at your palm, and to use nods (select) and head shakes (close)."))
+                    NavigationLink { HowToView() } label: {
+                        Label(tr("使い方", "How to use"), systemImage: "questionmark.circle")
+                    }
+                    NavigationLink { TrainingDataView() } label: {
+                        Label(tr("学習データ", "Training data"), systemImage: "doc.text")
+                    }
+                    NavigationLink { StatusDetailView() } label: {
+                        Label(tr("詳しい状態", "Details"), systemImage: "info.circle")
+                    }
                 }
+            }
+            .navigationTitle("SpatialCue")
+            .background { SystemVolumeView(hub: hub).frame(width: 1, height: 1).opacity(0.01) }
+        }
+    }
+}
 
-                if hub.settings.useHeadTracking {
-                Section(tr("頭の向き（AirPods）", "Head (AirPods)")) {
+// MARK: - 時刻と振動
+
+private struct TimeSettingsView: View {
+    @EnvironmentObject private var hub: PhoneHub
+
+    var body: some View {
+        Form {
+            Section {
+                Picker(tr("時刻の伝え方", "Tell time with"), selection: $hub.settings.timeStyle) {
+                    ForEach(TimeAnnounceStyle.allCases) { Text($0.title).tag($0) }
+                }
+                Picker(tr("振動のパターン", "Vibration pattern"), selection: $hub.settings.hapticPattern) {
+                    ForEach(HapticPattern.allCases) { Text($0.title).tag($0) }
+                }
+            } footer: {
+                Text(hub.settings.hapticPattern.explanation)
+            }
+            Section {
+                Button(tr("Watch で試す", "Try on Watch")) { hub.sendCommand(.testTime) }
+            } footer: {
+                Text(tr("「読み上げ」を選んでいても、読み上げがオフのときは振動で伝えます。",
+                        "Even with \"Voice\", the time is vibrated when speech is off."))
+            }
+        }
+        .navigationTitle(tr("時刻と振動", "Time & haptics"))
+    }
+}
+
+// MARK: - 音と言語
+
+private struct SoundSettingsView: View {
+    @EnvironmentObject private var hub: PhoneHub
+
+    var body: some View {
+        Form {
+            Section {
+                Toggle(tr("読み上げ", "Speech"), isOn: $hub.settings.speechEnabled)
+                if hub.settings.speechEnabled {
+                    Picker(tr("読み上げの言語", "Speech language"), selection: $hub.settings.speechLanguage) {
+                        ForEach(SpeechLanguageChoice.allCases) { Text($0.title).tag($0) }
+                    }
+                }
+                Picker(tr("音の出力先", "Sound output"), selection: $hub.settings.soundOutput) {
+                    ForEach(SoundOutput.allCases) { Text($0.title).tag($0) }
+                }
+            } footer: {
+                Text(tr("読み上げと「ポン」の効果音を鳴らす場所です。「iPhone」なら iPhone のスピーカーかつないでいるイヤホンで、「Apple Watch のスピーカー」なら Watch から鳴らします。Watch のスピーカーは、Watch の画面が点いている間だけ鳴ります。読み上げをオフにすると、振動と効果音だけで伝えます。",
+                        "Where speech and the \"pop\" sound play. \"iPhone\" uses the iPhone speaker or connected headphones; \"Apple Watch speaker\" plays from the Watch, but only while the Watch screen is on. With speech off, only haptics and sound effects are used."))
+            }
+            Section(tr("言語", "Language")) {
+                Picker(tr("アプリの言語", "App language"), selection: $hub.settings.appLanguage) {
+                    ForEach(LanguageChoice.allCases) { Text($0.title).tag($0) }
+                }
+            }
+        }
+        .navigationTitle(tr("音と言語", "Sound & language"))
+    }
+}
+
+// MARK: - 音楽の操作
+
+private struct MusicSettingsView: View {
+    @EnvironmentObject private var hub: PhoneHub
+
+    var body: some View {
+        Form {
+            Section {
+                Toggle(tr("メニューを省略（時計で直接操作）", "Skip the menu (control from the clock)"),
+                       isOn: $hub.settings.directMedia)
+            } footer: {
+                Text(tr("オンなら、時刻を聞いた後の時計の状態でそのまま操作します。オフなら、ピンチ1回でメニューを開いてから回数で選びます。",
+                        "On: control music right from the clock after hearing the time. Off: pinch once to open a menu, then pinch to choose."))
+            }
+            Section(tr("割り当て", "Controls")) {
+                if hub.settings.directMedia {
+                    LabeledContent(tr("ダブルタップ", "Double Tap"), value: MenuAction.playPause.title)
+                    LabeledContent(tr("右に払う", "Flick right"), value: MenuAction.nextTrack.title)
+                    LabeledContent(tr("左に払う", "Flick left"), value: MenuAction.previousTrack.title)
+                    LabeledContent("Digital Crown", value: tr("音量", "Volume"))
+                } else {
+                    LabeledContent(tr("ピンチ1回", "Pinch once"), value: MenuAction.playPause.title)
+                    LabeledContent(tr("ピンチ2回", "Pinch twice"), value: MenuAction.nextTrack.title)
+                    LabeledContent(tr("ピンチ3回", "Pinch 3 times"), value: MenuAction.previousTrack.title)
+                }
+            }
+            Section {
+                HStack {
+                    Button(MenuAction.playPause.title) { hub.perform(.playPause) }
+                    Spacer()
+                    Button(tr("前", "Prev")) { hub.perform(.previousTrack) }
+                    Button(tr("次", "Next")) { hub.perform(.nextTrack) }
+                }
+                .buttonStyle(.bordered)
+                LabeledContent(tr("最後の操作", "Last action"), value: hub.lastCommand)
+            } header: {
+                Text(tr("ここで試す", "Try it here"))
+            } footer: {
+                Text(tr("ミュージックアプリの再生を操作します。", "Controls playback in the Music app."))
+            }
+            if hub.mediaRemoteAvailable {
+                Section {
+                    Toggle(tr("他のアプリも操作（実験）", "Control other apps (experimental)"),
+                           isOn: $hub.settings.experimentalMediaRemote)
+                } footer: {
+                    Text(tr("Spotify など他のアプリを、iOS 内部の非公開機能（MediaRemote）で操作します。効かない場合は音声の割り込みで一時停止させます（再開は元のアプリの対応しだい）。",
+                            "Controls other apps such as Spotify with iOS's private MediaRemote framework, falling back to pausing them with an audio interruption (whether they resume depends on the app)."))
+                }
+            }
+        }
+        .navigationTitle(tr("音楽の操作", "Music controls"))
+    }
+}
+
+// MARK: - ジェスチャー
+
+private struct GestureSettingsView: View {
+    @EnvironmentObject private var hub: PhoneHub
+
+    var body: some View {
+        Form {
+            Section(tr("払う動き", "Flick")) {
+                SliderRow(title: tr("感度", "Sensitivity"), value: $hub.settings.flickSensitivity, range: 0...1, step: 0.1, percent: true)
+                Toggle(tr("向きを反転", "Invert direction"), isOn: $hub.settings.invertFlick)
+            }
+            Section(tr("装着", "Wearing")) {
+                Picker(tr("装着の向き", "Watch orientation"), selection: $hub.settings.wristSetup) {
+                    ForEach(WristSetup.allCases) { Text($0.title).tag($0) }
+                }
+                Toggle(tr("音量の左右反転", "Invert volume direction"), isOn: $hub.settings.invertVolumeX)
+            }
+            Section {
+                Toggle(tr("手首の動きでピンチを推定（実験）", "Detect pinches from wrist motion (experimental)"),
+                       isOn: $hub.settings.wristPinch)
+                if hub.settings.wristPinch {
+                    SliderRow(title: tr("つまむ感度", "Pinch sensitivity"), value: $hub.settings.pinchSensitivity,
+                              range: 0...1, step: 0.1, percent: true)
+                }
+            } header: {
+                Text(tr("ピンチ", "Pinch"))
+            } footer: {
+                Text(tr("確実なのは Watch のダブルタップ（Series 9／Ultra 2 以降）と、アクセシビリティのクイックアクションです。手首の動きからの推定は、手を開くなどの動きでも反応することがあります。使う場合は Watch の「学習」でピンチと「なし」を録ってください。",
+                        "Double Tap (Series 9 / Ultra 2 or later) and Accessibility Quick Actions are the reliable options. Detection from wrist motion can also trigger on opening your hand; if you use it, record pinches and \"None\" in Training on the Watch."))
+            }
+        }
+        .navigationTitle(tr("ジェスチャー", "Gestures"))
+    }
+}
+
+// MARK: - 安全
+
+private struct SafetySettingsView: View {
+    @EnvironmentObject private var hub: PhoneHub
+
+    var body: some View {
+        Form {
+            Section {
+                Toggle(tr("イヤホン接続時のみ再生・曲送り", "Media controls only with headphones"),
+                       isOn: $hub.settings.mediaOnlyWithHeadphones)
+                Toggle(tr("イヤホンが無いときは振動のみ", "Vibration only without headphones"),
+                       isOn: $hub.settings.vibrationOnlyWithoutHeadphones)
+            } header: {
+                Text(tr("イヤホン", "Headphones"))
+            } footer: {
+                Text(tr("イヤホン（AirPods 以外も可）は外すと出力がスピーカーに戻るので、出力先がイヤホンのときを「装着中」とみなします。オフなら iPhone のスピーカーでも使えます。",
+                        "Headphones (any brand) switch the output back to the speaker when taken off, so they count as worn while the output is headphones. With these off, it also works through the iPhone speaker."))
+            }
+            Section {
+                Toggle(tr("腕を大きく動かしている間は無視", "Ignore while arm is moving"), isOn: $hub.settings.blockWhileMoving)
+                SliderRow(title: tr("音量の上限", "Max volume"), value: $hub.settings.maxVolume, range: 0.3...1, step: 0.05, percent: true)
+            } footer: {
+                Text(tr("歩いたり走ったりして腕を振っている間の手首の衝撃は、ピンチとして扱いません。音量は上限を超えません。",
+                        "Wrist impacts while swinging your arms aren't treated as pinches. The volume never goes above the limit."))
+            }
+        }
+        .navigationTitle(tr("安全", "Safety"))
+    }
+}
+
+// MARK: - AirPods（任意）
+
+private struct HeadTrackingSettingsView: View {
+    @EnvironmentObject private var hub: PhoneHub
+
+    var body: some View {
+        Form {
+            Section {
+                Toggle(tr("頭の向きを判定に使う", "Use head tracking"), isOn: $hub.settings.useHeadTracking)
+            } footer: {
+                Text(tr("オフでも手首の動きだけで使えます。オンにすると、AirPods Pro／Max／第3世代以降の頭の向きで「手のひらを見ているか」を確かめ、うなずき（決定）・首振り（閉じる）も使えます。",
+                        "SpatialCue works with wrist motion alone. Turn this on to use AirPods Pro / Max / 3rd gen or later head tracking to check that you're looking at your palm, and to use nods (select) and head shakes (close)."))
+            }
+            if hub.settings.useHeadTracking {
+                Section(tr("頭の向き", "Head")) {
                     LiveHeadRows(live: hub.live)
                     LabeledContent(tr("最後の頭ジェスチャー", "Last head gesture"), value: hub.lastEvent)
                     Toggle(tr("見ている時だけ反応", "Only while looking"), isOn: $hub.settings.requireHeadLook)
-                    slider(tr("見ている判定のしきい値", "Looking threshold"), value: $hub.settings.headLookThreshold,
-                           in: 0.2...1, step: 0.1, percent: true)
+                    SliderRow(title: tr("見ている判定のしきい値", "Looking threshold"), value: $hub.settings.headLookThreshold,
+                              range: 0.2...1, step: 0.1, percent: true)
                 }
-
                 Section {
                     Button(tr("① 正面を見てタップ", "① Look straight ahead and tap")) { hub.captureNeutral() }
                     Button(tr("② 腕を上げて時計を見る姿勢でタップ", "② Raise your wrist, look at the Watch, and tap")) { hub.captureLook() }
@@ -148,119 +301,160 @@ struct PhoneContentView: View {
                                    : tr("未校正（下向き30°を仮定）", "Not calibrated (assumes 30° down)"))
                 } header: {
                     Text(tr("頭の校正", "Head calibration"))
-                } footer: {
-                    Text(tr("AirPods を着けて、それぞれの姿勢のまま画面をタップします。",
-                            "Wear your AirPods and tap while holding each posture."))
                 }
-
                 Section {
                     Button(tr("手のひらを見て校正（Watch で3秒後に記録）", "Calibrate palm (Watch records after 3 s)")) {
                         hub.sendCommand(.calibratePalm)
                     }
-                    LabeledContent(tr("状態", "Status"), value: hub.watchPalmCalibrated ? tr("校正済み", "Calibrated") : tr("未校正", "Not calibrated"))
+                    LabeledContent(tr("状態", "Status"),
+                                   value: hub.watchPalmCalibrated ? tr("校正済み", "Calibrated") : tr("未校正", "Not calibrated"))
                     if hub.watchPalmCalibrated {
                         Button(tr("左右の向きを反転", "Flip left/right")) { hub.sendCommand(.flipPalmYaw) }
                         Button(tr("校正を消す", "Clear calibration"), role: .destructive) { hub.sendCommand(.clearPalm) }
                     }
-                    slider(tr("視線の許容角", "Gaze tolerance"), value: $hub.settings.gazeThreshold, in: 10...45, step: 5, suffix: "°")
+                    SliderRow(title: tr("視線の許容角", "Gaze tolerance"), value: $hub.settings.gazeThreshold,
+                              range: 10...45, step: 5, suffix: "°")
                 } header: {
-                    Text(tr("手のひらを見る", "Looking at palm"))
+                    Text(tr("手のひらの校正", "Palm calibration"))
                 } footer: {
-                    Text(tr("ボタンを押したら手のひらを上に向けて見てください。Watch がカウントダウン後に、AirPods の向きと腕の向きを基準として記録します。",
-                            "After tapping, turn your palm up and look at it. After a countdown the Watch records your head and arm direction as the reference."))
+                    Text(tr("ボタンを押したら手のひらを上に向けて見てください。Watch がカウントダウン後に記録します。",
+                            "After tapping, turn your palm up and look at it. The Watch records after a countdown."))
                 }
+            }
+        }
+        .navigationTitle(tr("AirPods（任意）", "AirPods (optional)"))
+    }
+}
 
-                Section {
-                    Toggle(tr("手首の動きでピンチを推定（実験）", "Detect pinches from wrist motion (experimental)"),
-                           isOn: $hub.settings.wristPinch)
-                    if hub.settings.wristPinch {
-                        slider(tr("つまむ感度", "Pinch sensitivity"), value: $hub.settings.pinchSensitivity, in: 0...1, step: 0.1, percent: true)
-                    }
-                } header: {
-                    Text(tr("ピンチの入力", "Pinch input"))
-                } footer: {
-                    Text(tr("確実なのは Watch のダブルタップ（Series 9／Ultra 2 以降）と、アクセシビリティのクイックアクション（ダブルピンチ）です。手首の動きからの推定は、手を開くなどの動きでも反応することがあります。使う場合は Watch の「学習」で、ピンチと「なし」（手を開く・指を動かす）を録ってください。",
-                            "Double Tap on the Watch (Series 9 / Ultra 2 or later) and Accessibility Quick Actions (double pinch) are the reliable options. Detection from wrist motion can also trigger on things like opening your hand. If you use it, record pinches and \"None\" (opening your hand, moving your fingers) in Training on the Watch."))
-                }
+// MARK: - 動作と電池
 
-                }
+private struct RunningSettingsView: View {
+    @EnvironmentObject private var hub: PhoneHub
 
-                Section(tr("ジェスチャー", "Gestures")) {
-                    slider(tr("払う感度", "Flick sensitivity"), value: $hub.settings.flickSensitivity, in: 0...1, step: 0.1, percent: true)
-                    Toggle(tr("音量の左右反転", "Invert volume direction"), isOn: $hub.settings.invertVolumeX)
-                    Toggle(tr("払う向きを反転", "Invert flick direction"), isOn: $hub.settings.invertFlick)
-                    Picker(tr("装着の向き", "Watch orientation"), selection: $hub.settings.wristSetup) {
-                        ForEach(WristSetup.allCases) { Text($0.title).tag($0) }
-                    }
-                }
-
-                if Edition.isStable {
-                    Section {
-                        Toggle(tr("腕を下ろしたら省電力", "Save power when arm is down"), isOn: $hub.settings.powerSaving)
-                    } header: {
-                        Text(tr("動作", "Running"))
-                    } footer: {
-                        Text(tr("安定版は、Watch で SpatialCue を開いている間だけ動きます。常駐の機能（ワークアウトモードなど）は、ソースからビルドするフル版にあります。Watch の「設定」→「一般」→「時計に戻る」で SpatialCue を「App に戻る」にすると、手首を下ろしても開いたままになります。",
-                                "The stable edition works while SpatialCue is open on the Watch. Background features (such as workout mode) are in the full edition you build from source. On the Watch, set Settings → General → Return to Clock → SpatialCue to \"Return to App\" to keep it open when you lower your wrist."))
-                    }
-                } else {
+    var body: some View {
+        Form {
+            if !Edition.isStable {
                 Section {
                     Toggle(tr("常駐（ワークアウトモード）", "Stay running (workout mode)"), isOn: $hub.settings.workoutMode)
                     if !hub.settings.workoutMode {
                         Toggle(tr("常時検出（最長1時間）", "Keep detecting (up to 1 hour)"), isOn: $hub.settings.keepRunning)
                     }
-                    Toggle(tr("腕を下ろしたら省電力", "Save power when arm is down"), isOn: $hub.settings.powerSaving)
                     Toggle(tr("画面ロック中も中継（無音再生）", "Relay while locked (silent audio)"), isOn: $hub.keepAliveInBackground)
-                } header: {
-                    Text(tr("常駐", "Background"))
                 } footer: {
-                    Text(tr("ワークアウトモードは止めるまで Watch で動き続けます（ヘルスケアには記録しません。心拍センサーはシステムがオンにします）。初回は Watch でヘルスケアの許可が出ます。「画面ロック中も中継」は iPhone をポケットに入れたまま使うときにオン。",
-                            "Workout mode keeps the Watch app running until you turn it off (nothing is saved to Health; the system turns on the heart-rate sensor). The Watch asks for Health permission the first time. Turn on \"Relay while locked\" to use it with the iPhone in your pocket."))
-                }
-                }
-
-                Section(tr("学習データ（Create ML 用 CSV）", "Training data (CSV for Create ML)")) {
-                    if hub.exports.isEmpty {
-                        Text(tr("Watch の「学習」→「iPhoneへ書き出し」で届きます", "Use Training → Export to iPhone on the Watch"))
-                            .foregroundStyle(.secondary)
-                    }
-                    ForEach(hub.exports, id: \.self) { url in
-                        ShareLink(item: url) {
-                            Label(url.lastPathComponent, systemImage: "doc.text")
-                        }
-                    }
-                    .onDelete { hub.deleteExports(at: $0) }
-                }
-
-                Section(tr("使い方", "How to use")) {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(tr("・手のひらを上に向けて見る → ポン（準備完了）", "• Turn your palm up and look at it → pop (ready)"))
-                        Text(tr("・表へ素早く返す → 時刻", "• Flip back quickly → time"))
-                        Text(tr("・時計でピンチして動かす → 音量", "• On the clock, pinch and move → volume"))
-                        Text(tr("・時計でダブルタップ → 再生・停止、右／左に払う → 曲送り／曲戻し、竜頭 → 音量",
-                                "• On the clock: Double Tap → play/pause, flick right/left → next/previous, crown → volume"))
-                        Text(tr("・握る／首振り → 閉じる", "• Fist / head shake → close"))
-                    }
-                    .font(.footnote)
+                    Text(tr("ワークアウトモードは止めるまで Watch で動き続けます（ヘルスケアには記録しません。心拍センサーはシステムがオンにします）。電池を多く使います。",
+                            "Workout mode keeps the Watch app running until you turn it off (nothing is saved to Health; the system turns on the heart-rate sensor). It uses more battery."))
                 }
             }
-            .navigationTitle("SpatialCue")
-            .background { SystemVolumeView(hub: hub).frame(width: 1, height: 1).opacity(0.01) }
+            Section {
+                Toggle(tr("腕を下ろしたら省電力", "Save power when arm is down"), isOn: $hub.settings.powerSaving)
+            } footer: {
+                Text(Edition.isStable
+                     ? tr("Watch で SpatialCue を開いている間だけ動きます。Watch の「設定」→「一般」→「時計に戻る」→ SpatialCue を「App に戻る」にすると、手首を下ろしても開いたままになります。",
+                          "Works while SpatialCue is open on the Watch. On the Watch, set Settings → General → Return to Clock → SpatialCue to \"Return to App\" to keep it open when you lower your wrist.")
+                     : tr("腕を3秒下ろすと、センサーの読み取りを減らして電池を節約します。",
+                          "With your arm down for 3 seconds, sensor sampling drops to save battery."))
+            }
         }
+        .navigationTitle(tr("動作と電池", "Running & battery"))
     }
+}
 
-    private func status(_ title: String, _ ok: Bool) -> some View {
+// MARK: - 使い方・学習データ・詳しい状態
+
+private struct HowToView: View {
+    var body: some View {
+        Form {
+            Section {
+                Text(tr("① 手のひらを上に向けて見る → ポン（準備完了）", "① Turn your palm up and look at it → pop (ready)"))
+                Text(tr("② 表へ素早く返す → 時刻", "② Flip back quickly → time"))
+                Text(tr("③ 時計が出ている間: ダブルタップ → 再生・停止、右／左に払う → 曲送り／曲戻し、竜頭 → 音量",
+                        "③ While the clock is shown: Double Tap → play/pause, flick right/left → next/previous, crown → volume"))
+                Text(tr("握る／首振り → 閉じる", "Fist / head shake → close"))
+            }
+        }
+        .navigationTitle(tr("使い方", "How to use"))
+    }
+}
+
+private struct TrainingDataView: View {
+    @EnvironmentObject private var hub: PhoneHub
+
+    var body: some View {
+        Form {
+            Section {
+                if hub.exports.isEmpty {
+                    Text(tr("Watch の「学習」→「iPhoneへ書き出し」で届きます", "Use Training → Export to iPhone on the Watch"))
+                        .foregroundStyle(.secondary)
+                }
+                ForEach(hub.exports, id: \.self) { url in
+                    ShareLink(item: url) {
+                        Label(url.lastPathComponent, systemImage: "doc.text")
+                    }
+                }
+                .onDelete { hub.deleteExports(at: $0) }
+            } footer: {
+                Text(tr("Create ML の Activity Classifier 用の CSV です。", "CSV files for Create ML's Activity Classifier."))
+            }
+        }
+        .navigationTitle(tr("学習データ", "Training data"))
+    }
+}
+
+private struct StatusDetailView: View {
+    @EnvironmentObject private var hub: PhoneHub
+
+    var body: some View {
+        Form {
+            Section {
+                LabeledContent(tr("版", "Edition"), value: Edition.title)
+                StatusRow(title: tr("Apple Watch アプリ", "Apple Watch app"), ok: hub.watchAppInstalled)
+                StatusRow(title: tr("Watch と通信中", "Connected to Watch"), ok: hub.watchReachable)
+                LabeledContent(tr("Watch の常駐", "Watch background"), value: hub.watchResidency)
+            }
+            Section {
+                StatusRow(title: tr("イヤホン", "Headphones"), ok: hub.headphonesOn)
+                LabeledContent(tr("音声の出力先", "Audio output"), value: hub.outputName)
+                StatusRow(title: tr("AirPods（頭の向き）", "AirPods (head motion)"), ok: hub.airPodsConnected)
+                LabeledContent(tr("モーションの許可", "Motion permission"), value: hub.authorization)
+            }
+            Section {
+                LabeledContent(tr("最後の操作", "Last action"), value: hub.lastCommand)
+            }
+        }
+        .navigationTitle(tr("詳しい状態", "Details"))
+    }
+}
+
+// MARK: - 部品
+
+private struct StatusRow: View {
+    let title: String
+    let ok: Bool
+    var detail: String?
+
+    var body: some View {
         LabeledContent(title) {
-            Image(systemName: ok ? "checkmark.circle.fill" : "xmark.circle")
-                .foregroundStyle(ok ? .green : .secondary)
+            HStack(spacing: 6) {
+                if let detail { Text(detail).foregroundStyle(.secondary) }
+                Image(systemName: ok ? "checkmark.circle.fill" : "xmark.circle")
+                    .foregroundStyle(ok ? .green : .secondary)
+            }
         }
     }
+}
 
-    private func slider(_ title: String, value: Binding<Double>, in range: ClosedRange<Double>, step: Double,
-                        percent: Bool = false, suffix: String = "") -> some View {
+private struct SliderRow: View {
+    let title: String
+    @Binding var value: Double
+    let range: ClosedRange<Double>
+    let step: Double
+    var percent = false
+    var suffix = ""
+
+    var body: some View {
         VStack(alignment: .leading) {
-            Text(percent ? "\(title) \(Int((value.wrappedValue * 100).rounded()))%" : "\(title) \(Int(value.wrappedValue))\(suffix)")
-            Slider(value: value, in: range, step: step)
+            Text(percent ? "\(title) \(Int((value * 100).rounded()))%" : "\(title) \(Int(value))\(suffix)")
+            Slider(value: $value, in: range, step: step)
         }
     }
 }

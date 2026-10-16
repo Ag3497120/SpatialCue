@@ -24,7 +24,15 @@ final class TimeTeller {
         return trSpeech("\(h)時\(m)分です", String(format: "It's %d:%02d", h, m))
     }
 
+    /// Watch のスピーカーで鳴らせるように音声セッションを有効にする
+    static func activateSpeaker() {
+        let session = AVAudioSession.sharedInstance()
+        try? session.setCategory(.playback, mode: .voicePrompt, options: [])
+        try? session.setActive(true)
+    }
+
     func speakLocally(_ text: String) {
+        Self.activateSpeaker()
         let u = AVSpeechUtterance(string: text)
         u.voice = AVSpeechSynthesisVoice(language: L10n.speech.voiceCode)
         u.volume = speechVolume
@@ -46,20 +54,35 @@ final class TimeTeller {
     /// (振動の種類, 次までの秒数)。種類が nil なら休み
     typealias Step = (WKHapticType?, Double)
 
+    /// Apple Watch の Taptic タイム「数字通り」に近づけた振動。
+    /// 長いタップ = 一続きの強い振動（notification）、短いタップ = 軽いクリック。
+    /// 時は Watch の 12／24 時間制の設定に合わせる。0 の桁は鳴らさない。
+    /// （watchOS では Core Haptics が使えないので、用意された振動の種類で近づけている）
     static func digitsSequence(_ d: Date) -> [Step] {
         let c = Calendar.current.dateComponents([.hour, .minute], from: d)
-        let h = c.hour ?? 0, m = c.minute ?? 0
+        var h = c.hour ?? 0
+        let m = c.minute ?? 0
+        if !uses24Hour {
+            h %= 12
+            if h == 0 { h = 12 }
+        }
         var seq: [Step] = []
         func long(_ n: Int) {
-            for _ in 0..<n { seq.append((.start, 0.07)); seq.append((.start, 0.07)); seq.append((.start, 0.45)) }
+            for _ in 0..<n { seq.append((.notification, 0.85)) }
         }
         func short(_ n: Int) {
-            for _ in 0..<n { seq.append((.click, 0.3)) }
+            for _ in 0..<n { seq.append((.click, 0.32)) }
         }
         long(h / 10); short(h % 10)
-        seq.append((nil, 0.9))
+        seq.append((nil, 0.8))
         long(m / 10); short(m % 10)
         return seq
+    }
+
+    /// 端末の時刻表示が 24 時間制か
+    static var uses24Hour: Bool {
+        let format = DateFormatter.dateFormat(fromTemplate: "j", options: 0, locale: .current) ?? "H"
+        return format.contains("H") || format.contains("k")
     }
 
     static func morseSequence(_ d: Date) -> [Step] {
