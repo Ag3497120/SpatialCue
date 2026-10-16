@@ -1,0 +1,3 @@
+"NSMotionUsageDescription" = "手首と AirPods の動きからジェスチャーを認識します。";
+"NSHealthShareUsageDescription" = "ワークアウトモードでアプリを常駐させるためだけに使います（データは読み取りません）。";
+"NSHealthUpdateUsageDescription" = "ワークアウトモードでアプリを常駐させるためだけに使います（記録は保存しません）。";

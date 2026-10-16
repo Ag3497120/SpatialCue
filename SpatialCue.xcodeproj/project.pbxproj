@@ -1,0 +1,600 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0332D00B413FC6310549B75A /* SoundFX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD73FD85E3CC70E14B68CA0 /* SoundFX.swift */; };
+		0DBD1C3F60F5DC7FA2FCF20C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3EE87D130F0292D5A18B365 /* Assets.xcassets */; };
+		0FF959AE7D52336F8B5D8B25 /* TimeTeller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D47E91F80F3860A31B45454 /* TimeTeller.swift */; };
+		1351F8A17A69BF215667E51F /* MediaRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFE90BE4B3A4A92D3FCD9D5 /* MediaRemote.swift */; };
+		30617253088E24526B3608C6 /* SensorPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2CB4DEA5CADD84395D0B50 /* SensorPipeline.swift */; };
+		3A3252632AE7415AD5E9EF4D /* SpatialCueWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC87C32B5BC2D2AE55FF272F /* SpatialCueWatchApp.swift */; };
+		3C76CCD8F251C923DFF36912 /* WSProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AEC8DC4DA808917BAF344C /* WSProtocol.swift */; };
+		4C349AFB97C5EDF7101D2697 /* TrainingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF65C593C4532C49AFAC2B8A /* TrainingStore.swift */; };
+		5544B4DBDD65AB3FB2E9F28A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68B20B40316C7DB2C43533D /* HomeView.swift */; };
+		581EBEFEE679ABC3EFC8C076 /* TrainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2108085EC78CBCE2582DA4F4 /* TrainingView.swift */; };
+		6323A5369D04B2832905813B /* PhoneHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2686DA3098647BE083BCA65D /* PhoneHub.swift */; };
+		65A74CBE907DC899ABAA5228 /* SensorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB44AE191CB578509E6E6E1 /* SensorView.swift */; };
+		68DC822549DB12A0AB7E9880 /* HeadLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = B639D44B09E5D0D693FA16BB /* HeadLink.swift */; };
+		705754D685BA8113023B934E /* GestureClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE7D53C8FE87EAEC30BF36 /* GestureClassifier.swift */; };
+		7211F1C05A7969AF184A2255 /* PinchDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A76120D34D26E9C5B12B167 /* PinchDetector.swift */; };
+		84A2D99CEC6B85A904187CB0 /* WorkoutKeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841C29ACCD7C3C5B15178623 /* WorkoutKeeper.swift */; };
+		8AB6CB0E798B0E58B50521A8 /* SpatialCuePhoneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243C00128E31EB9EDC840F73 /* SpatialCuePhoneApp.swift */; };
+		8CC9BA6EAB5AD470F79A4770 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574ECB4C5657419EE0FC12BE /* RootView.swift */; };
+		94E4AC867110E4F3E73EFA81 /* SpatialCueWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FA79690BD40E61F271F1FD61 /* SpatialCueWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A320C7F1C661C328BDFCF3EC /* HeadTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBC56C8C9E377FC216CC9ED /* HeadTracking.swift */; };
+		B06211CA4F64C12F9DBDA2A8 /* HeadTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBC56C8C9E377FC216CC9ED /* HeadTracking.swift */; };
+		B2F8B984A52E7A584A2FA7DF /* WSProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AEC8DC4DA808917BAF344C /* WSProtocol.swift */; };
+		B4B45ED53102DB999689FF80 /* PhoneLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DEFCA6ECC4086D32BE64C1 /* PhoneLink.swift */; };
+		BDAA08AF605C589615BEAD79 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3A6F85F672A68ECEF4B83F /* Localization.swift */; };
+		BEF217400F344BE7E452C77D /* SoundFX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD73FD85E3CC70E14B68CA0 /* SoundFX.swift */; };
+		C4067EE2198F6B551A4ABE69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95A32590A6FCCCC746D28FF3 /* Assets.xcassets */; };
+		CA9F867D9168122C01A7B0D1 /* WristSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16256F02B1D5045392F7C924 /* WristSettings.swift */; };
+		D34AC2645FE7D5489E57E48F /* VirtualOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4794AEDF1D2872A693B6509C /* VirtualOverlay.swift */; };
+		DB5078B5601C13F8473F1013 /* WristSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16256F02B1D5045392F7C924 /* WristSettings.swift */; };
+		DF587CE6FC31742DDDE18190 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014509E8D477583C15C1D65 /* AppModel.swift */; };
+		E0FB96D3357D655B73929AC8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B3ACF907E057FED25FD5443A /* InfoPlist.strings */; };
+		E9BD210DAFA18D975505DEAC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F9CFAE380AE619E84145C5B0 /* InfoPlist.strings */; };
+		EBBF7512E452E981C41FBC20 /* WristGestureDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4F782087775F04AED6B6B8 /* WristGestureDetector.swift */; };
+		ED586A4DD519D5CC7046BDFC /* RuntimeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E8EADA6FBD0783EE634721 /* RuntimeSession.swift */; };
+		EF122A4E3049AA0154575133 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3A6F85F672A68ECEF4B83F /* Localization.swift */; };
+		F246A090D541ADFF0F060D68 /* AirController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CAD1A9E486C16F2542ED09 /* AirController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8CFEBD4FFB9318E763F5D2C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0917FFA1E8A2A18A0DB82718 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 83B68C2870953B47ED066744;
+			remoteInfo = SpatialCueWatch;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BECA66E8F8CC9E1650AD32BF /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				94E4AC867110E4F3E73EFA81 /* SpatialCueWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		04AEC8DC4DA808917BAF344C /* WSProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WSProtocol.swift; sourceTree = "<group>"; };
+		0A76120D34D26E9C5B12B167 /* PinchDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinchDetector.swift; sourceTree = "<group>"; };
+		0BD73FD85E3CC70E14B68CA0 /* SoundFX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundFX.swift; sourceTree = "<group>"; };
+		0D47E91F80F3860A31B45454 /* TimeTeller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTeller.swift; sourceTree = "<group>"; };
+		16256F02B1D5045392F7C924 /* WristSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WristSettings.swift; sourceTree = "<group>"; };
+		2108085EC78CBCE2582DA4F4 /* TrainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingView.swift; sourceTree = "<group>"; };
+		243C00128E31EB9EDC840F73 /* SpatialCuePhoneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialCuePhoneApp.swift; sourceTree = "<group>"; };
+		2686DA3098647BE083BCA65D /* PhoneHub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneHub.swift; sourceTree = "<group>"; };
+		4794AEDF1D2872A693B6509C /* VirtualOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualOverlay.swift; sourceTree = "<group>"; };
+		52CAD1A9E486C16F2542ED09 /* AirController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirController.swift; sourceTree = "<group>"; };
+		574ECB4C5657419EE0FC12BE /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		63E9613C9649BE0D381041F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		69E8EADA6FBD0783EE634721 /* RuntimeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuntimeSession.swift; sourceTree = "<group>"; };
+		6BB44AE191CB578509E6E6E1 /* SensorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorView.swift; sourceTree = "<group>"; };
+		6C1E0167284412969907C694 /* App.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = App.xcconfig; sourceTree = "<group>"; };
+		841C29ACCD7C3C5B15178623 /* WorkoutKeeper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutKeeper.swift; sourceTree = "<group>"; };
+		8ECE7D53C8FE87EAEC30BF36 /* GestureClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureClassifier.swift; sourceTree = "<group>"; };
+		9014509E8D477583C15C1D65 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		95A32590A6FCCCC746D28FF3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9E4F782087775F04AED6B6B8 /* WristGestureDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WristGestureDetector.swift; sourceTree = "<group>"; };
+		B3ACF907E057FED25FD5443A /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B639D44B09E5D0D693FA16BB /* HeadLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadLink.swift; sourceTree = "<group>"; };
+		BF65C593C4532C49AFAC2B8A /* TrainingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingStore.swift; sourceTree = "<group>"; };
+		C0B395E86ED5C3CC2E886D69 /* SpatialCue.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SpatialCue.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C7093E27DC4EFFD2671D9660 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		CEFE90BE4B3A4A92D3FCD9D5 /* MediaRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaRemote.swift; sourceTree = "<group>"; };
+		E3EE87D130F0292D5A18B365 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E68B20B40316C7DB2C43533D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		E6DEFCA6ECC4086D32BE64C1 /* PhoneLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneLink.swift; sourceTree = "<group>"; };
+		EF2CB4DEA5CADD84395D0B50 /* SensorPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorPipeline.swift; sourceTree = "<group>"; };
+		F9CFAE380AE619E84145C5B0 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FA79690BD40E61F271F1FD61 /* SpatialCueWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpatialCueWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB3A6F85F672A68ECEF4B83F /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		FC87C32B5BC2D2AE55FF272F /* SpatialCueWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialCueWatchApp.swift; sourceTree = "<group>"; };
+		FDBC56C8C9E377FC216CC9ED /* HeadTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadTracking.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		03A3EAC70891C49E21435DE2 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				FDBC56C8C9E377FC216CC9ED /* HeadTracking.swift */,
+				FB3A6F85F672A68ECEF4B83F /* Localization.swift */,
+				0BD73FD85E3CC70E14B68CA0 /* SoundFX.swift */,
+				16256F02B1D5045392F7C924 /* WristSettings.swift */,
+				04AEC8DC4DA808917BAF344C /* WSProtocol.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		0440508479DAB407AB9EE3AE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9014509E8D477583C15C1D65 /* AppModel.swift */,
+				BF65C593C4532C49AFAC2B8A /* TrainingStore.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1C37AAF1511C8D94FAF51506 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B639D44B09E5D0D693FA16BB /* HeadLink.swift */,
+				E6DEFCA6ECC4086D32BE64C1 /* PhoneLink.swift */,
+				69E8EADA6FBD0783EE634721 /* RuntimeSession.swift */,
+				EF2CB4DEA5CADD84395D0B50 /* SensorPipeline.swift */,
+				0D47E91F80F3860A31B45454 /* TimeTeller.swift */,
+				841C29ACCD7C3C5B15178623 /* WorkoutKeeper.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		1D71D5139373AE48F97E185E = {
+			isa = PBXGroup;
+			children = (
+				5ECE9889BCEA349375763DCF /* Config */,
+				CB1000ED965E169326778856 /* iOS */,
+				03A3EAC70891C49E21435DE2 /* Shared */,
+				68F1FC1E074E9194A0D82C79 /* Watch */,
+				A4D29930EDB292DFF2AD7313 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4B9E2568FF222D4D2FF18683 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				52CAD1A9E486C16F2542ED09 /* AirController.swift */,
+				8ECE7D53C8FE87EAEC30BF36 /* GestureClassifier.swift */,
+				0A76120D34D26E9C5B12B167 /* PinchDetector.swift */,
+				9E4F782087775F04AED6B6B8 /* WristGestureDetector.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		5ECE9889BCEA349375763DCF /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				6C1E0167284412969907C694 /* App.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		68F1FC1E074E9194A0D82C79 /* Watch */ = {
+			isa = PBXGroup;
+			children = (
+				95A32590A6FCCCC746D28FF3 /* Assets.xcassets */,
+				63E9613C9649BE0D381041F9 /* Info.plist */,
+				F9CFAE380AE619E84145C5B0 /* InfoPlist.strings */,
+				FC87C32B5BC2D2AE55FF272F /* SpatialCueWatchApp.swift */,
+				4B9E2568FF222D4D2FF18683 /* Core */,
+				0440508479DAB407AB9EE3AE /* Model */,
+				1C37AAF1511C8D94FAF51506 /* Services */,
+				9ADA8D11775DB8B71D57371E /* Views */,
+			);
+			path = Watch;
+			sourceTree = "<group>";
+		};
+		9ADA8D11775DB8B71D57371E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E68B20B40316C7DB2C43533D /* HomeView.swift */,
+				574ECB4C5657419EE0FC12BE /* RootView.swift */,
+				6BB44AE191CB578509E6E6E1 /* SensorView.swift */,
+				2108085EC78CBCE2582DA4F4 /* TrainingView.swift */,
+				4794AEDF1D2872A693B6509C /* VirtualOverlay.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A4D29930EDB292DFF2AD7313 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C0B395E86ED5C3CC2E886D69 /* SpatialCue.app */,
+				FA79690BD40E61F271F1FD61 /* SpatialCueWatch.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CB1000ED965E169326778856 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				E3EE87D130F0292D5A18B365 /* Assets.xcassets */,
+				C7093E27DC4EFFD2671D9660 /* Info.plist */,
+				B3ACF907E057FED25FD5443A /* InfoPlist.strings */,
+				CEFE90BE4B3A4A92D3FCD9D5 /* MediaRemote.swift */,
+				2686DA3098647BE083BCA65D /* PhoneHub.swift */,
+				243C00128E31EB9EDC840F73 /* SpatialCuePhoneApp.swift */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		83B68C2870953B47ED066744 /* SpatialCueWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE23C3095EA3D28F2348074D /* Build configuration list for PBXNativeTarget "SpatialCueWatch" */;
+			buildPhases = (
+				1745BD722CCEB563BE9F15D3 /* Sources */,
+				D7302B9081879864832D67B7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SpatialCueWatch;
+			packageProductDependencies = (
+			);
+			productName = SpatialCueWatch;
+			productReference = FA79690BD40E61F271F1FD61 /* SpatialCueWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EB531B95BED310A3DFE95FD1 /* SpatialCue */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A85316134A7FAB7004D596D2 /* Build configuration list for PBXNativeTarget "SpatialCue" */;
+			buildPhases = (
+				A1B8BDE70CB137D0D4B46980 /* Sources */,
+				5575D503D0B5BDDEB441E61B /* Resources */,
+				BECA66E8F8CC9E1650AD32BF /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6F7742F440A971304098D38F /* PBXTargetDependency */,
+			);
+			name = SpatialCue;
+			packageProductDependencies = (
+			);
+			productName = SpatialCue;
+			productReference = C0B395E86ED5C3CC2E886D69 /* SpatialCue.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0917FFA1E8A2A18A0DB82718 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					83B68C2870953B47ED066744 = {
+						DevelopmentTeam = "$(SC_TEAM_ID)";
+						ProvisioningStyle = Automatic;
+					};
+					EB531B95BED310A3DFE95FD1 = {
+						DevelopmentTeam = "$(SC_TEAM_ID)";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = F57729C64817094647D59C3C /* Build configuration list for PBXProject "SpatialCue" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+				ja,
+			);
+			mainGroup = 1D71D5139373AE48F97E185E;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A4D29930EDB292DFF2AD7313 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EB531B95BED310A3DFE95FD1 /* SpatialCue */,
+				83B68C2870953B47ED066744 /* SpatialCueWatch */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5575D503D0B5BDDEB441E61B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0DBD1C3F60F5DC7FA2FCF20C /* Assets.xcassets in Resources */,
+				E0FB96D3357D655B73929AC8 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D7302B9081879864832D67B7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4067EE2198F6B551A4ABE69 /* Assets.xcassets in Resources */,
+				E9BD210DAFA18D975505DEAC /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1745BD722CCEB563BE9F15D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F246A090D541ADFF0F060D68 /* AirController.swift in Sources */,
+				DF587CE6FC31742DDDE18190 /* AppModel.swift in Sources */,
+				705754D685BA8113023B934E /* GestureClassifier.swift in Sources */,
+				68DC822549DB12A0AB7E9880 /* HeadLink.swift in Sources */,
+				B06211CA4F64C12F9DBDA2A8 /* HeadTracking.swift in Sources */,
+				5544B4DBDD65AB3FB2E9F28A /* HomeView.swift in Sources */,
+				BDAA08AF605C589615BEAD79 /* Localization.swift in Sources */,
+				B4B45ED53102DB999689FF80 /* PhoneLink.swift in Sources */,
+				7211F1C05A7969AF184A2255 /* PinchDetector.swift in Sources */,
+				8CC9BA6EAB5AD470F79A4770 /* RootView.swift in Sources */,
+				ED586A4DD519D5CC7046BDFC /* RuntimeSession.swift in Sources */,
+				30617253088E24526B3608C6 /* SensorPipeline.swift in Sources */,
+				65A74CBE907DC899ABAA5228 /* SensorView.swift in Sources */,
+				BEF217400F344BE7E452C77D /* SoundFX.swift in Sources */,
+				3A3252632AE7415AD5E9EF4D /* SpatialCueWatchApp.swift in Sources */,
+				0FF959AE7D52336F8B5D8B25 /* TimeTeller.swift in Sources */,
+				4C349AFB97C5EDF7101D2697 /* TrainingStore.swift in Sources */,
+				581EBEFEE679ABC3EFC8C076 /* TrainingView.swift in Sources */,
+				D34AC2645FE7D5489E57E48F /* VirtualOverlay.swift in Sources */,
+				3C76CCD8F251C923DFF36912 /* WSProtocol.swift in Sources */,
+				84A2D99CEC6B85A904187CB0 /* WorkoutKeeper.swift in Sources */,
+				EBBF7512E452E981C41FBC20 /* WristGestureDetector.swift in Sources */,
+				CA9F867D9168122C01A7B0D1 /* WristSettings.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1B8BDE70CB137D0D4B46980 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A320C7F1C661C328BDFCF3EC /* HeadTracking.swift in Sources */,
+				EF122A4E3049AA0154575133 /* Localization.swift in Sources */,
+				1351F8A17A69BF215667E51F /* MediaRemote.swift in Sources */,
+				6323A5369D04B2832905813B /* PhoneHub.swift in Sources */,
+				0332D00B413FC6310549B75A /* SoundFX.swift in Sources */,
+				8AB6CB0E798B0E58B50521A8 /* SpatialCuePhoneApp.swift in Sources */,
+				B2F8B984A52E7A584A2FA7DF /* WSProtocol.swift in Sources */,
+				DB5078B5601C13F8473F1013 /* WristSettings.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6F7742F440A971304098D38F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 83B68C2870953B47ED066744 /* SpatialCueWatch */;
+			targetProxy = 8CFEBD4FFB9318E763F5D2C1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A23A764C3C2CFDCD8C606657 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "$(SC_WATCH_ENTITLEMENTS)";
+				INFOPLIST_FILE = Watch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(SC_BUNDLE_ID).watchkitapp";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Debug;
+		};
+		AE7C0DAD5FC16C82E3FA0E8F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = iOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "$(SC_BUNDLE_ID)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		B834CEFC9A252C07043088B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "$(SC_WATCH_ENTITLEMENTS)";
+				INFOPLIST_FILE = Watch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(SC_BUNDLE_ID).watchkitapp";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Release;
+		};
+		DB598AEAF6A366318ED1559E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = iOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "$(SC_BUNDLE_ID)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		F85810E98DF57C72087B4CAE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C1E0167284412969907C694 /* App.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Debug;
+		};
+		FC5443324A63B5851C7DF120 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C1E0167284412969907C694 /* App.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A85316134A7FAB7004D596D2 /* Build configuration list for PBXNativeTarget "SpatialCue" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE7C0DAD5FC16C82E3FA0E8F /* Debug */,
+				DB598AEAF6A366318ED1559E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EE23C3095EA3D28F2348074D /* Build configuration list for PBXNativeTarget "SpatialCueWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A23A764C3C2CFDCD8C606657 /* Debug */,
+				B834CEFC9A252C07043088B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F57729C64817094647D59C3C /* Build configuration list for PBXProject "SpatialCue" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F85810E98DF57C72087B4CAE /* Debug */,
+				FC5443324A63B5851C7DF120 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0917FFA1E8A2A18A0DB82718 /* Project object */;
+}

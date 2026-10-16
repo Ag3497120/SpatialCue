@@ -1,0 +1,11 @@
+// このファイルを Local.xcconfig という名前でコピーして、自分の値に書き換える。
+// Local.xcconfig は .gitignore 済み。
+
+SC_TEAM_ID = ABCDE12345
+SC_BUNDLE_ID = com.yourname.spatialcue
+
+// 非公開 API を使わない場合は次の行のコメントを外す
+// SC_PRIVATE_API =
+
+// 無料の Apple ID でワークアウトモード（HealthKit）の署名に失敗する場合は次の行のコメントを外す
+// SC_WATCH_ENTITLEMENTS =

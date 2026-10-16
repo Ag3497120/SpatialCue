@@ -1,0 +1,20 @@
+// SpatialCue の共通ビルド設定。
+// 自分の値は同じフォルダの Local.xcconfig に書く（Local.example.xcconfig をコピー。Git には入らない）。
+
+// Apple Developer のチーム ID（Xcode → Settings → Accounts で確認）
+SC_TEAM_ID =
+
+// iPhone アプリのバンドル ID。Watch アプリは末尾に .watchkitapp が付く
+SC_BUNDLE_ID = com.example.spatialcue
+
+// 非公開 API（MediaRemote）で他のアプリの再生も操作する。
+// TestFlight や App Store に出すときは空にする（審査で却下されるため）
+SC_PRIVATE_API = PRIVATE_MEDIAREMOTE
+
+// ワークアウトモード（HealthKit）の権限。無料の Apple ID で署名できない場合は空にする
+SC_WATCH_ENTITLEMENTS = Watch/SpatialCueWatch.entitlements
+
+#include? "Local.xcconfig"
+
+DEVELOPMENT_TEAM = $(SC_TEAM_ID)
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) $(SC_PRIVATE_API)

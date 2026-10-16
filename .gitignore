@@ -1,0 +1,11 @@
+# 自分のチーム ID・バンドル ID
+Config/Local.xcconfig
+
+# Xcode
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+
+# macOS
+.DS_Store
