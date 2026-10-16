@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/icon.png" width="128" alt="SpatialCue icon">
+</p>
+
 # SpatialCue
 
 SpatialCue brings the Apple Vision Pro "look at your hand, flip your palm" interaction to **Apple Watch motion sensors and AirPods head tracking**. Without looking at a screen, you can hear the time and control the music playing on your iPhone using wrist movements and finger pinches.
@@ -11,6 +15,14 @@ SpatialCue brings the Apple Vision Pro "look at your hand, flip your palm" inter
 - An Apple Watch app (gesture recognition, haptics, time) and an iPhone app (AirPods head-motion relay, settings, music control) work together.
 - Requirements: iPhone with iOS 17 or later, Apple Watch with watchOS 11 or later. AirPods Pro / Max / 3rd generation or later are recommended.
 - The UI and speech are available in English and Japanese, and you can switch them independently.
+
+## Why I made this
+
+SpatialCue started as a small, spur-of-the-moment idea.
+
+After using Apple Vision Pro for a while, its "flip your palm to see the time" gesture became a habit, and I caught myself doing it even when I wasn't wearing the headset. Around the same time, I'd been thinking about wearing my Apple Watch on my right wrist, because the IC card readers on ticket gates in Japan are on the right-hand side.
+
+Putting those two thoughts together, a Vision Pro habit and a Watch that's always on my wrist, turned into this app. It works on either wrist: the orientation is detected automatically, or you can set it in the iPhone app.
 
 > This is a personal experiment. Gesture thresholds were tuned on synthetic data and may need adjusting on real devices.
 
