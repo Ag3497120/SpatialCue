@@ -20,6 +20,7 @@
 		6323A5369D04B2832905813B /* PhoneHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2686DA3098647BE083BCA65D /* PhoneHub.swift */; };
 		65A74CBE907DC899ABAA5228 /* SensorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB44AE191CB578509E6E6E1 /* SensorView.swift */; };
 		68DC822549DB12A0AB7E9880 /* HeadLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = B639D44B09E5D0D693FA16BB /* HeadLink.swift */; };
+		6C6B10198398631748CAC916 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = FB0B11E0D929254CB3DD53E0 /* PrivacyInfo.xcprivacy */; };
 		705754D685BA8113023B934E /* GestureClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE7D53C8FE87EAEC30BF36 /* GestureClassifier.swift */; };
 		7211F1C05A7969AF184A2255 /* PinchDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A76120D34D26E9C5B12B167 /* PinchDetector.swift */; };
 		84A2D99CEC6B85A904187CB0 /* WorkoutKeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841C29ACCD7C3C5B15178623 /* WorkoutKeeper.swift */; };
@@ -30,6 +31,7 @@
 		B06211CA4F64C12F9DBDA2A8 /* HeadTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBC56C8C9E377FC216CC9ED /* HeadTracking.swift */; };
 		B2F8B984A52E7A584A2FA7DF /* WSProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AEC8DC4DA808917BAF344C /* WSProtocol.swift */; };
 		B4B45ED53102DB999689FF80 /* PhoneLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DEFCA6ECC4086D32BE64C1 /* PhoneLink.swift */; };
+		B920FD6FC6C0A6F085040D69 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 066C6B1D565B3D4CB13CA32E /* PrivacyInfo.xcprivacy */; };
 		BDAA08AF605C589615BEAD79 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3A6F85F672A68ECEF4B83F /* Localization.swift */; };
 		BEF217400F344BE7E452C77D /* SoundFX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD73FD85E3CC70E14B68CA0 /* SoundFX.swift */; };
 		C4067EE2198F6B551A4ABE69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95A32590A6FCCCC746D28FF3 /* Assets.xcassets */; };
@@ -71,6 +73,7 @@
 
 /* Begin PBXFileReference section */
 		04AEC8DC4DA808917BAF344C /* WSProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WSProtocol.swift; sourceTree = "<group>"; };
+		066C6B1D565B3D4CB13CA32E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		0A76120D34D26E9C5B12B167 /* PinchDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinchDetector.swift; sourceTree = "<group>"; };
 		0BD73FD85E3CC70E14B68CA0 /* SoundFX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundFX.swift; sourceTree = "<group>"; };
 		0D47E91F80F3860A31B45454 /* TimeTeller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTeller.swift; sourceTree = "<group>"; };
@@ -102,6 +105,7 @@
 		EF2CB4DEA5CADD84395D0B50 /* SensorPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorPipeline.swift; sourceTree = "<group>"; };
 		F9CFAE380AE619E84145C5B0 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FA79690BD40E61F271F1FD61 /* SpatialCueWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpatialCueWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB0B11E0D929254CB3DD53E0 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		FB3A6F85F672A68ECEF4B83F /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		FC87C32B5BC2D2AE55FF272F /* SpatialCueWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialCueWatchApp.swift; sourceTree = "<group>"; };
 		FDBC56C8C9E377FC216CC9ED /* HeadTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadTracking.swift; sourceTree = "<group>"; };
@@ -178,6 +182,7 @@
 				95A32590A6FCCCC746D28FF3 /* Assets.xcassets */,
 				63E9613C9649BE0D381041F9 /* Info.plist */,
 				F9CFAE380AE619E84145C5B0 /* InfoPlist.strings */,
+				066C6B1D565B3D4CB13CA32E /* PrivacyInfo.xcprivacy */,
 				FC87C32B5BC2D2AE55FF272F /* SpatialCueWatchApp.swift */,
 				4B9E2568FF222D4D2FF18683 /* Core */,
 				0440508479DAB407AB9EE3AE /* Model */,
@@ -216,6 +221,7 @@
 				B3ACF907E057FED25FD5443A /* InfoPlist.strings */,
 				CEFE90BE4B3A4A92D3FCD9D5 /* MediaRemote.swift */,
 				2686DA3098647BE083BCA65D /* PhoneHub.swift */,
+				FB0B11E0D929254CB3DD53E0 /* PrivacyInfo.xcprivacy */,
 				243C00128E31EB9EDC840F73 /* SpatialCuePhoneApp.swift */,
 			);
 			path = iOS;
@@ -309,6 +315,7 @@
 			files = (
 				0DBD1C3F60F5DC7FA2FCF20C /* Assets.xcassets in Resources */,
 				E0FB96D3357D655B73929AC8 /* InfoPlist.strings in Resources */,
+				6C6B10198398631748CAC916 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +325,7 @@
 			files = (
 				C4067EE2198F6B551A4ABE69 /* Assets.xcassets in Resources */,
 				E9BD210DAFA18D975505DEAC /* InfoPlist.strings in Resources */,
+				B920FD6FC6C0A6F085040D69 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

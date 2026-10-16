@@ -23,11 +23,14 @@ targets:
       path: iOS/Info.plist
       properties:
         CFBundleDisplayName: SpatialCue
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         CFBundleDevelopmentRegion: en
         CFBundleLocalizations: [en, ja]
         UILaunchScreen: {}
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         UIBackgroundModes: [audio]
+        ITSAppUsesNonExemptEncryption: false
         NSMotionUsageDescription: Uses your AirPods head motion to tell when you're looking at your Watch.
         NSAppleMusicUsageDescription: Plays, pauses and skips tracks from the Apple Watch menu.
     settings:
@@ -46,11 +49,14 @@ targets:
       path: Watch/Info.plist
       properties:
         CFBundleDisplayName: SpatialCue
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         CFBundleDevelopmentRegion: en
         CFBundleLocalizations: [en, ja]
         WKApplication: true
         WKCompanionAppBundleIdentifier: $(SC_BUNDLE_ID)
         WKBackgroundModes: [physical-therapy, workout-processing]
+        ITSAppUsesNonExemptEncryption: false
         NSMotionUsageDescription: Recognizes gestures from your wrist and AirPods motion.
         NSHealthShareUsageDescription: Used only to keep the app running in workout mode. No health data is read.
         NSHealthUpdateUsageDescription: Used only to keep the app running in workout mode. No workouts are saved.

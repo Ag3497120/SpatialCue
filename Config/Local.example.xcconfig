@@ -9,3 +9,6 @@ SC_BUNDLE_ID = com.yourname.spatialcue
 
 // 無料の Apple ID でワークアウトモード（HealthKit）の署名に失敗する場合は次の行のコメントを外す
 // SC_WATCH_ENTITLEMENTS =
+
+// TestFlight／App Store 用のバンドル ID（Tools/testflight.sh が使う。省略すると SC_BUNDLE_ID）
+// SC_RELEASE_BUNDLE_ID = com.yourname.spatialcue

@@ -123,6 +123,16 @@ watchOS doesn't let apps run in the background forever, so there are two options
 
 In my experience workout mode drains the battery noticeably, so I use the default. I rarely go an hour without checking my Watch anyway.
 
+## Releasing to TestFlight (maintainers)
+
+1. Set `SC_TEAM_ID` and `SC_RELEASE_BUNDLE_ID` in `Config/Local.xcconfig`, and create the app in App Store Connect with that bundle ID.
+2. Run:
+   ```bash
+   ./Tools/testflight.sh            # archive and export an .ipa to build/testflight
+   ./Tools/testflight.sh --upload   # archive and upload to App Store Connect
+   ```
+   The script builds without the private API, and uses the date and time as the build number so every upload is unique.
+
 ## How it works
 
 - **Wrist pose** (`Watch/Core/WristGestureDetector.swift`): derives forearm roll and elevation from the gravity vector to detect "looking at the watch face", "palm up / looking at palm", and "quick flip back".
@@ -147,6 +157,10 @@ The gesture detection and the interaction state machine can be tested on a Mac w
 - System volume is changed by moving a hidden `MPVolumeView` on the iPhone, which may not work while the iPhone app is in the background.
 - AirPods yaw drifts over time, so the left/right part of gaze detection may need recalibration.
 - In workout mode, the system turns on the heart-rate sensor.
+
+## Privacy
+
+SpatialCue collects no personal data. See [PRIVACY.md](PRIVACY.md).
 
 ## License
 
