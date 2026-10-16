@@ -19,8 +19,13 @@ struct HomeView: View {
                 }
 
                 HStack(spacing: 4) {
-                    StatusChip(symbol: "airpods", text: model.airPodsWorn ? tr("装着中", "Worn") : tr("振動のみ", "Haptics"), on: model.airPodsWorn)
-                    StatusChip(symbol: "eye", text: headText, on: model.head != nil)
+                    StatusChip(symbol: model.headphonesOn ? "headphones" : "speaker.wave.2",
+                               text: model.canUseSound ? (model.headphonesOn ? tr("イヤホン", "Headphones") : tr("スピーカー", "Speaker"))
+                                                       : tr("振動のみ", "Haptics"),
+                               on: model.canUseSound)
+                    if model.settings.useHeadTracking {
+                        StatusChip(symbol: "eye", text: headText, on: model.head != nil)
+                    }
                 }
                 if !model.settings.gesturesEnabled {
                     StatusChip(symbol: "hand.raised.slash", text: tr("ジェスチャー停止中", "Gestures off"), on: false)

@@ -70,6 +70,7 @@ struct WristReading {
 /// Vision Pro の「手を見る・裏返す」を、手首の姿勢と AirPods の頭の向きで再現する状態機械。
 final class WristGestureDetector {
     struct Config {
+        var useHead = true                // false なら頭の向き（AirPods）を使わず手首の動きだけで判定
         var requireHeadLook = false
         var headLookThreshold = 0.5
         var flickThreshold = 5.0          // rad/s
@@ -120,7 +121,7 @@ final class WristGestureDetector {
         if pose != rawPose { rawPose = pose; rawSince = s.t }
         if rawPose != stablePose && s.t - rawSince >= 0.06 { stablePose = rawPose }
 
-        let headSample = head()
+        let headSample = config.useHead ? head() : nil
         let headOK: Bool
         if config.requireHeadLook, let h = headSample {
             headOK = h.look >= config.headLookThreshold

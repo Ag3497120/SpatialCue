@@ -6,8 +6,8 @@ import WatchConnectivity
 final class PhoneLink: NSObject, ObservableObject {
     @Published private(set) var reachable = false
     @Published private(set) var phoneAirPods = false
-    /// iPhone の音声出力が AirPods になっている（＝耳に着けている）
-    @Published private(set) var airPodsWorn = false
+    /// iPhone の音声出力がイヤホンになっている
+    @Published private(set) var headphonesOn = false
 
     var onHeadEvent: ((HeadEvent) -> Void)?
     var onSystemVolume: ((Double) -> Void)?
@@ -71,7 +71,7 @@ extension PhoneLink: WCSessionDelegate {
             self.reachable = r
             if !r {
                 self.phoneAirPods = false
-                self.airPodsWorn = false   // iPhone と離れたら AirPods は無いものとして扱う（安全側）
+                self.headphonesOn = false   // iPhone と離れたらイヤホンは無いものとして扱う（安全側）
             }
         }
     }
@@ -97,7 +97,7 @@ extension PhoneLink: WCSessionDelegate {
             let v = message[WS.volume] as? Double
             Task { @MainActor in
                 self.phoneAirPods = c
-                self.airPodsWorn = w
+                self.headphonesOn = w
                 if let v { self.onSystemVolume?(v) }
             }
         case .settings:

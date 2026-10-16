@@ -48,7 +48,7 @@ struct PhoneContentView: View {
 
                 Section(tr("状態", "Status")) {
                     LabeledContent(tr("版", "Edition"), value: Edition.title)
-                    status(tr("AirPods 装着", "AirPods worn"), hub.airPodsWorn)
+                    status(tr("イヤホン", "Headphones"), hub.headphonesOn)
                     LabeledContent(tr("音声の出力先", "Audio output"), value: hub.outputName)
                     status(tr("AirPods（頭の向き）", "AirPods (head motion)"), hub.airPodsConnected)
                     status(tr("Apple Watch アプリ", "Apple Watch app"), hub.watchAppInstalled)
@@ -59,18 +59,18 @@ struct PhoneContentView: View {
                 }
 
                 Section {
-                    Toggle(tr("AirPods 装着時のみ再生・曲送り", "Media controls only with AirPods in"),
-                           isOn: $hub.settings.mediaOnlyWithAirPods)
-                    Toggle(tr("AirPods が無いときは振動のみ", "Vibration only without AirPods"),
-                           isOn: $hub.settings.vibrationOnlyWithoutAirPods)
+                    Toggle(tr("イヤホン接続時のみ再生・曲送り", "Media controls only with headphones"),
+                           isOn: $hub.settings.mediaOnlyWithHeadphones)
+                    Toggle(tr("イヤホンが無いときは振動のみ", "Vibration only without headphones"),
+                           isOn: $hub.settings.vibrationOnlyWithoutHeadphones)
                     Toggle(tr("腕を大きく動かしている間は無視", "Ignore while arm is moving"),
                            isOn: $hub.settings.blockWhileMoving)
                     slider(tr("音量の上限", "Max volume"), value: $hub.settings.maxVolume, in: 0.3...1, step: 0.05, percent: true)
                 } header: {
                     Text(tr("安全装置", "Safety"))
                 } footer: {
-                    Text(tr("AirPods は耳から外すと出力がスピーカーに戻るので、出力先が AirPods のときを「装着中」とみなします。装着していないと、再生・曲送りはせず、読み上げや効果音の代わりに Watch の振動だけで知らせます。歩いたり走ったりして腕を振っている間の手首の衝撃は、ピンチとして扱いません。音量スライダーは上限を超えません。",
-                            "AirPods switch the output back to the speaker when taken out, so SpatialCue treats them as worn while the output is AirPods. When they aren't worn, media controls are ignored and the Watch uses vibration instead of speech and sounds. Wrist impacts while swinging your arms (walking, running) aren't treated as pinches. The volume slider never goes above the limit."))
+                    Text(tr("イヤホン（AirPods 以外も可）は外すと出力がスピーカーに戻るので、出力先がイヤホンのときを「装着中」とみなします。上の 2 つをオンにすると、イヤホンがないときは再生・曲送りをせず、読み上げや効果音の代わりに振動だけで知らせます。オフなら iPhone のスピーカーでも使えます。歩いたり走ったりして腕を振っている間の手首の衝撃は、ピンチとして扱いません。音量は上限を超えません。",
+                            "Headphones (any brand) switch the output back to the speaker when taken off, so SpatialCue treats them as worn while the output is headphones. With the two switches above on, media controls are ignored without headphones and the Watch vibrates instead of speaking. With them off, it also works through the iPhone speaker. Wrist impacts while swinging your arms aren't treated as pinches. The volume never goes above the limit."))
                 }
 
                 Section {
@@ -121,6 +121,16 @@ struct PhoneContentView: View {
                               "Even with \"Voice\", the time is vibrated when speech is off or AirPods aren't worn."))
                 }
 
+                Section {
+                    Toggle(tr("頭の向きを判定に使う", "Use head tracking"), isOn: $hub.settings.useHeadTracking)
+                } header: {
+                    Text(tr("AirPods（任意）", "AirPods (optional)"))
+                } footer: {
+                    Text(tr("オフでも手首の動きだけで使えます。オンにすると、AirPods Pro／Max／第3世代以降の頭の向きで「手のひらを見ているか」を確かめ、うなずき（決定）・首振り（閉じる）も使えます。",
+                            "SpatialCue works with wrist motion alone. Turn this on to use AirPods Pro / Max / 3rd gen or later head tracking to check that you're looking at your palm, and to use nods (select) and head shakes (close)."))
+                }
+
+                if hub.settings.useHeadTracking {
                 Section(tr("頭の向き（AirPods）", "Head (AirPods)")) {
                     LiveHeadRows(live: hub.live)
                     LabeledContent(tr("最後の頭ジェスチャー", "Last head gesture"), value: hub.lastEvent)
@@ -171,6 +181,8 @@ struct PhoneContentView: View {
                 } footer: {
                     Text(tr("確実なのは Watch のダブルタップ（Series 9／Ultra 2 以降）と、アクセシビリティのクイックアクション（ダブルピンチ）です。手首の動きからの推定は、手を開くなどの動きでも反応することがあります。使う場合は Watch の「学習」で、ピンチと「なし」（手を開く・指を動かす）を録ってください。",
                             "Double Tap on the Watch (Series 9 / Ultra 2 or later) and Accessibility Quick Actions (double pinch) are the reliable options. Detection from wrist motion can also trigger on things like opening your hand. If you use it, record pinches and \"None\" (opening your hand, moving your fingers) in Training on the Watch."))
+                }
+
                 }
 
                 Section(tr("ジェスチャー", "Gestures")) {

@@ -29,7 +29,7 @@ struct SensorView: View {
             }
             Section(tr("安全装置", "Safety")) {
                 row(tr("版", "Edition"), Edition.title)
-                row(tr("AirPods装着", "AirPods worn"), yesNo(model.airPodsWorn))
+                row(tr("イヤホン", "Headphones"), yesNo(model.headphonesOn))
                 row(tr("音を出す", "Sound"), model.canUseSound ? tr("はい", "Yes") : tr("振動のみ", "Vibration only"))
                 row(tr("ジェスチャー", "Gestures"), model.settings.gesturesEnabled ? tr("有効", "On") : tr("停止中", "Off"))
             }

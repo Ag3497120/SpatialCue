@@ -80,11 +80,11 @@ final class AppModel: ObservableObject {
 
     var motionAvailable: Bool { pipeline.isAvailable }
 
-    /// AirPods を耳に着けているか（iPhone の音声出力が AirPods、または時計に直接つながっている）
-    var airPodsWorn: Bool { phone.airPodsWorn || headLink.directConnected }
+    /// イヤホンをつないでいるか（iPhone の音声出力がイヤホン、または AirPods が時計に直接つながっている）
+    var headphonesOn: Bool { phone.headphonesOn || headLink.directConnected }
 
-    /// 音を出してよいか（安全装置: AirPods が無いときは振動だけ）
-    var canUseSound: Bool { airPodsWorn || !settings.vibrationOnlyWithoutAirPods }
+    /// 音を出してよいか（安全装置をオンにしたときだけ、イヤホンが無いと振動だけ）
+    var canUseSound: Bool { headphonesOn || !settings.vibrationOnlyWithoutHeadphones }
 
     init() {
         palmCalibration = UserDefaults.standard.data(forKey: "palmCalibration")
@@ -208,6 +208,7 @@ final class AppModel: ObservableObject {
         airController.config.maxVolume = s.maxVolume
         airController.config.directMedia = s.directMedia
         pipeline.configure { w, p, f in
+            w.config.useHead = s.useHeadTracking
             w.config.requireHeadLook = s.requireHeadLook
             w.config.headLookThreshold = s.headLookThreshold
             w.config.flickThreshold = flickThr
@@ -290,6 +291,7 @@ final class AppModel: ObservableObject {
     }
 
     private func handleHead(_ e: HeadEvent) {
+        guard settings.useHeadTracking else { return }
         lastGesture = e.title
         guard recordingLabel == nil else { return }
         e == .nod ? pinch(from: .nod) : back()
@@ -386,9 +388,9 @@ final class AppModel: ObservableObject {
 
     private func menuAction(_ a: MenuAction) {
         // 安全装置: AirPods を着けていないときは再生・曲送りをしない（スピーカーから突然鳴るのを防ぐ）
-        if settings.mediaOnlyWithAirPods && !phone.airPodsWorn {
+        if settings.mediaOnlyWithHeadphones && !phone.headphonesOn {
             WKInterfaceDevice.current().play(.failure)
-            showToast(tr("AirPodsを着けていません", "AirPods not worn"))
+            showToast(tr("イヤホンがありません", "No headphones"))
             return
         }
         if !phone.media(a) {

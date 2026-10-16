@@ -140,6 +140,16 @@ do {
     check(s.count(.palmGazeBegan) == 2, "手を追って目線を上げると再び見ている（ずれ \(Int(s.wrist.reading.gazeError ?? -1))°）")
 }
 
+do {
+    // 頭の向きを使わない設定: 頭がよそを向いていても、手首だけで「手のひらを見ている」になる
+    let s = Sim()
+    s.wrist.head = { HeadSample(pitch: 40, yaw: 90, look: 0, downSign: -1) }
+    s.wrist.config.palmCalibration = PalmCalibration(headPitch: -30, headYaw: 0, palmElevation: -30, palmAzimuth: 0)
+    s.wrist.config.useHead = false
+    s.move(roll: 175, elev: 15, over: 0.5); s.hold(0.6)
+    check(s.count(.palmGazeBegan) == 1, "頭の向きを使わない設定では、手首だけで手のひらの判定をする")
+}
+
 print("■ つまむ検出（未学習ヒューリスティック）")
 do {
     let s = Sim()

@@ -12,8 +12,8 @@ final class PhoneHub: NSObject, ObservableObject {
     static let calibrationKey = "phoneHeadCalibration"
 
     @Published private(set) var airPodsConnected = false
-    /// 音声出力が AirPods（＝耳に着けている。外すと自動でスピーカーに切り替わる）
-    @Published private(set) var airPodsWorn = false
+    /// 音声の出力先がイヤホン（AirPods 以外の Bluetooth・有線・USB も含む）
+    @Published private(set) var headphonesOn = false
     @Published private(set) var outputName = "—"
     @Published private(set) var motionAvailable = false
     @Published private(set) var authorization = "—"
@@ -70,7 +70,7 @@ final class PhoneHub: NSObject, ObservableObject {
     var mediaRemoteAvailable: Bool { MediaRemote.isAvailable }
 
     /// 音を出してよいか（安全装置: AirPods が無いときは iPhone のスピーカーから鳴らさない）
-    private var canUseSound: Bool { airPodsWorn || !settings.vibrationOnlyWithoutAirPods }
+    private var canUseSound: Bool { headphonesOn || !settings.vibrationOnlyWithoutHeadphones }
 
     nonisolated static var exportsDirectory: URL {
         let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("Exports")
@@ -115,21 +115,14 @@ final class PhoneHub: NSObject, ObservableObject {
         }
     }
 
-    /// 出力先が Bluetooth の AirPods（Beats 含む）なら「装着中」。
-    /// AirPods は耳から外すと自動で出力がスピーカーに戻るので、これで装着を判定できる
+    /// 出力先がイヤホンかどうか。イヤホンを外すと出力はスピーカーに戻るので、装着の目安になる
     private func refreshRoute() {
         let outputs = AVAudioSession.sharedInstance().currentRoute.outputs
         outputName = outputs.first?.portName ?? "—"
-        let bluetooth: [AVAudioSession.Port] = [.bluetoothA2DP, .bluetoothLE, .bluetoothHFP]
-        let worn = outputs.contains { out in
-            bluetooth.contains(out.portType)
-                && (out.portName.localizedCaseInsensitiveContains("AirPods")
-                    || out.portName.localizedCaseInsensitiveContains("Beats")
-                    || airPodsConnected)
-        }
-        if worn != airPodsWorn {
-            airPodsWorn = worn
-            if !worn { speech.stopSpeaking(at: .immediate) }
+        let headphonePorts: [AVAudioSession.Port] = [.headphones, .bluetoothA2DP, .bluetoothLE, .bluetoothHFP, .usbAudio]
+        let on = outputs.contains { headphonePorts.contains($0.portType) }
+        if on != headphonesOn {
+            headphonesOn = on
             sendStatus()
         }
     }
@@ -161,7 +154,7 @@ final class PhoneHub: NSObject, ObservableObject {
     }
 
     private func sendStatus() {
-        send([WS.kind: WS.Kind.headStatus.rawValue, WS.connected: airPodsConnected, WS.worn: airPodsWorn,
+        send([WS.kind: WS.Kind.headStatus.rawValue, WS.connected: airPodsConnected, WS.worn: headphonesOn,
               WS.volume: Double(AVAudioSession.sharedInstance().outputVolume)])
     }
 
@@ -226,8 +219,8 @@ final class PhoneHub: NSObject, ObservableObject {
 
     func perform(_ a: MenuAction) {
         // 安全装置: AirPods を着けていないときは操作しない（iPhone のスピーカーから突然鳴るのを防ぐ）
-        if settings.mediaOnlyWithAirPods && !airPodsWorn {
-            lastCommand = tr("\(a.title): AirPods 未装着のため無視", "\(a.title): ignored, AirPods not worn")
+        if settings.mediaOnlyWithHeadphones && !headphonesOn {
+            lastCommand = tr("\(a.title): イヤホンがないため無視", "\(a.title): ignored, no headphones")
             return
         }
         let music = MPMusicPlayerController.systemMusicPlayer

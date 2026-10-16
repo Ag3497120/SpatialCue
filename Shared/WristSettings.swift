@@ -61,6 +61,7 @@ struct WristSettings: Codable, Equatable {
 
     // ジェスチャー
     var gesturesEnabled = true          // 全体のオン／オフ（緊急停止）
+    var useHeadTracking = false         // AirPods の頭の向きを判定に使う（うなずき・首振りも含む）
     var requireHeadLook = false
     var headLookThreshold = 0.5
     var wristPinch = false              // 手首の衝撃からピンチを推定する（実験・誤反応しやすい）
@@ -87,8 +88,8 @@ struct WristSettings: Codable, Equatable {
     var directMedia = true                   // メニューを省略し、時計でピンチ回数から直接操作する
 
     // 安全装置
-    var mediaOnlyWithAirPods = true          // AirPods を着けているときだけ再生・曲送り
-    var vibrationOnlyWithoutAirPods = true   // AirPods が無いときは音を出さず振動だけ
+    var mediaOnlyWithHeadphones = false      // イヤホン（AirPods 以外も可）をつないでいるときだけ再生・曲送り
+    var vibrationOnlyWithoutHeadphones = false  // イヤホンが無いときは音を出さず振動だけ
     var maxVolume = 0.8                      // 音量スライダーの上限
     var blockWhileMoving = true              // 腕を大きく動かしている間の手首ピンチを無視
     var experimentalMediaRemote = true       // ミュージック以外のアプリも操作する（非公開 API・実験）
