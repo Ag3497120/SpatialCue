@@ -166,7 +166,11 @@ final class AppModel: ObservableObject {
     /// 常駐の方法を切り替える: ワークアウト（無制限）> 延長実行（最長 1 時間）> なし
     private func applyResidency() {
         guard started else { return }
-        if settings.workoutMode {
+        if Edition.isStable {
+            // 安定版は常駐しない（アプリを開いている間だけ動く）
+            runtime.stop()
+            workout.stop()
+        } else if settings.workoutMode {
             runtime.stop()
             workout.start()
         } else {

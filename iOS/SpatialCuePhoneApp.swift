@@ -47,6 +47,7 @@ struct PhoneContentView: View {
                 }
 
                 Section(tr("状態", "Status")) {
+                    LabeledContent(tr("版", "Edition"), value: Edition.title)
                     status(tr("AirPods 装着", "AirPods worn"), hub.airPodsWorn)
                     LabeledContent(tr("音声の出力先", "Audio output"), value: hub.outputName)
                     status(tr("AirPods（頭の向き）", "AirPods (head motion)"), hub.airPodsConnected)
@@ -85,11 +86,9 @@ struct PhoneContentView: View {
                         LabeledContent(tr("ピンチ2回", "Pinch twice"), value: MenuAction.nextTrack.title)
                         LabeledContent(tr("ピンチ3回", "Pinch 3 times"), value: MenuAction.previousTrack.title)
                     }
-                    Toggle(tr("他のアプリも操作（実験）", "Control other apps (experimental)"),
-                           isOn: $hub.settings.experimentalMediaRemote)
-                    if !hub.mediaRemoteAvailable {
-                        Text(tr("このビルドでは使えません", "Not available in this build"))
-                            .font(.footnote).foregroundStyle(.secondary)
+                    if hub.mediaRemoteAvailable {
+                        Toggle(tr("他のアプリも操作（実験）", "Control other apps (experimental)"),
+                               isOn: $hub.settings.experimentalMediaRemote)
                     }
                     HStack {
                         Button(MenuAction.playPause.title) { hub.perform(.playPause) }
@@ -183,6 +182,16 @@ struct PhoneContentView: View {
                     }
                 }
 
+                if Edition.isStable {
+                    Section {
+                        Toggle(tr("腕を下ろしたら省電力", "Save power when arm is down"), isOn: $hub.settings.powerSaving)
+                    } header: {
+                        Text(tr("動作", "Running"))
+                    } footer: {
+                        Text(tr("安定版は、Watch で SpatialCue を開いている間だけ動きます。常駐の機能（ワークアウトモードなど）は、ソースからビルドするフル版にあります。Watch の「設定」→「一般」→「時計に戻る」で SpatialCue を「App に戻る」にすると、手首を下ろしても開いたままになります。",
+                                "The stable edition works while SpatialCue is open on the Watch. Background features (such as workout mode) are in the full edition you build from source. On the Watch, set Settings → General → Return to Clock → SpatialCue to \"Return to App\" to keep it open when you lower your wrist."))
+                    }
+                } else {
                 Section {
                     Toggle(tr("常駐（ワークアウトモード）", "Stay running (workout mode)"), isOn: $hub.settings.workoutMode)
                     if !hub.settings.workoutMode {
@@ -195,6 +204,7 @@ struct PhoneContentView: View {
                 } footer: {
                     Text(tr("ワークアウトモードは止めるまで Watch で動き続けます（ヘルスケアには記録しません。心拍センサーはシステムがオンにします）。初回は Watch でヘルスケアの許可が出ます。「画面ロック中も中継」は iPhone をポケットに入れたまま使うときにオン。",
                             "Workout mode keeps the Watch app running until you turn it off (nothing is saved to Health; the system turns on the heart-rate sensor). The Watch asks for Health permission the first time. Turn on \"Relay while locked\" to use it with the iPhone in your pocket."))
+                }
                 }
 
                 Section(tr("学習データ（Create ML 用 CSV）", "Training data (CSV for Create ML)")) {

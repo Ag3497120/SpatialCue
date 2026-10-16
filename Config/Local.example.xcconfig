@@ -12,3 +12,6 @@ SC_BUNDLE_ID = com.yourname.spatialcue
 
 // TestFlight／App Store 用のバンドル ID（Tools/testflight.sh が使う。省略すると SC_BUNDLE_ID）
 // SC_RELEASE_BUNDLE_ID = com.yourname.spatialcue
+
+// ホーム画面に出る名前（TestFlight の版と区別したいときに）
+// SC_DISPLAY_NAME = SpatialCue Dev

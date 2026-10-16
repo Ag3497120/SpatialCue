@@ -4,7 +4,7 @@
 #   ./Tools/testflight.sh --upload   # App Store Connect にアップロードする
 #
 # - バンドル ID は Config/Local.xcconfig の SC_RELEASE_BUNDLE_ID（無ければ SC_BUNDLE_ID）
-# - 非公開 API（MediaRemote）は外してビルドする（審査で却下されるため）
+# - 安定版としてビルドする（Tools/stable-settings.sh。非公開 API・ワークアウトモード・常駐を外す）
 # - ビルド番号は日時（例: 202610171230）で毎回自動的に増える
 set -e
 cd "$(dirname "$0")/.."
@@ -26,14 +26,16 @@ DESTINATION=export
 BUILD=$(date +%Y%m%d%H%M)
 OUT=build/testflight
 ARCHIVE="$OUT/SpatialCue.xcarchive"
+rm -rf "$OUT"
 mkdir -p "$OUT"
 
-echo "▶ アーカイブ: $BUNDLE（ビルド $BUILD）"
+STABLE=$(./Tools/stable-settings.sh)
+echo "▶ アーカイブ: $BUNDLE（安定版・ビルド $BUILD）"
 xcodebuild archive \
     -project SpatialCue.xcodeproj -scheme SpatialCue -configuration Release \
     -destination 'generic/platform=iOS' -archivePath "$ARCHIVE" \
     -allowProvisioningUpdates \
-    SC_BUNDLE_ID="$BUNDLE" SC_PRIVATE_API= CURRENT_PROJECT_VERSION="$BUILD" \
+    SC_BUNDLE_ID="$BUNDLE" CURRENT_PROJECT_VERSION="$BUILD" $STABLE \
     | grep -E "error:|warning: |ARCHIVE (SUCCEEDED|FAILED)" || true
 [ -d "$ARCHIVE" ] || { echo "アーカイブに失敗しました" >&2; exit 1; }
 

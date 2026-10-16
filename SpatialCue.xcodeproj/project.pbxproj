@@ -26,6 +26,8 @@
 		84A2D99CEC6B85A904187CB0 /* WorkoutKeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841C29ACCD7C3C5B15178623 /* WorkoutKeeper.swift */; };
 		8AB6CB0E798B0E58B50521A8 /* SpatialCuePhoneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243C00128E31EB9EDC840F73 /* SpatialCuePhoneApp.swift */; };
 		8CC9BA6EAB5AD470F79A4770 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574ECB4C5657419EE0FC12BE /* RootView.swift */; };
+		8EBE7DAF7013B37186BE0829 /* Edition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F6CDE3285A6E8936E560E6 /* Edition.swift */; };
+		940663CAE6C2DC24FB8F41E8 /* Edition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F6CDE3285A6E8936E560E6 /* Edition.swift */; };
 		94E4AC867110E4F3E73EFA81 /* SpatialCueWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FA79690BD40E61F271F1FD61 /* SpatialCueWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A320C7F1C661C328BDFCF3EC /* HeadTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBC56C8C9E377FC216CC9ED /* HeadTracking.swift */; };
 		B06211CA4F64C12F9DBDA2A8 /* HeadTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBC56C8C9E377FC216CC9ED /* HeadTracking.swift */; };
@@ -84,7 +86,6 @@
 		4794AEDF1D2872A693B6509C /* VirtualOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualOverlay.swift; sourceTree = "<group>"; };
 		52CAD1A9E486C16F2542ED09 /* AirController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirController.swift; sourceTree = "<group>"; };
 		574ECB4C5657419EE0FC12BE /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
-		63E9613C9649BE0D381041F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		69E8EADA6FBD0783EE634721 /* RuntimeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuntimeSession.swift; sourceTree = "<group>"; };
 		6BB44AE191CB578509E6E6E1 /* SensorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorView.swift; sourceTree = "<group>"; };
 		6C1E0167284412969907C694 /* App.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = App.xcconfig; sourceTree = "<group>"; };
@@ -97,6 +98,7 @@
 		B639D44B09E5D0D693FA16BB /* HeadLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadLink.swift; sourceTree = "<group>"; };
 		BF65C593C4532C49AFAC2B8A /* TrainingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingStore.swift; sourceTree = "<group>"; };
 		C0B395E86ED5C3CC2E886D69 /* SpatialCue.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SpatialCue.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6F6CDE3285A6E8936E560E6 /* Edition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edition.swift; sourceTree = "<group>"; };
 		C7093E27DC4EFFD2671D9660 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CEFE90BE4B3A4A92D3FCD9D5 /* MediaRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaRemote.swift; sourceTree = "<group>"; };
 		E3EE87D130F0292D5A18B365 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 		03A3EAC70891C49E21435DE2 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				C6F6CDE3285A6E8936E560E6 /* Edition.swift */,
 				FDBC56C8C9E377FC216CC9ED /* HeadTracking.swift */,
 				FB3A6F85F672A68ECEF4B83F /* Localization.swift */,
 				0BD73FD85E3CC70E14B68CA0 /* SoundFX.swift */,
@@ -180,7 +183,6 @@
 			isa = PBXGroup;
 			children = (
 				95A32590A6FCCCC746D28FF3 /* Assets.xcassets */,
-				63E9613C9649BE0D381041F9 /* Info.plist */,
 				F9CFAE380AE619E84145C5B0 /* InfoPlist.strings */,
 				066C6B1D565B3D4CB13CA32E /* PrivacyInfo.xcprivacy */,
 				FC87C32B5BC2D2AE55FF272F /* SpatialCueWatchApp.swift */,
@@ -338,6 +340,7 @@
 			files = (
 				F246A090D541ADFF0F060D68 /* AirController.swift in Sources */,
 				DF587CE6FC31742DDDE18190 /* AppModel.swift in Sources */,
+				940663CAE6C2DC24FB8F41E8 /* Edition.swift in Sources */,
 				705754D685BA8113023B934E /* GestureClassifier.swift in Sources */,
 				68DC822549DB12A0AB7E9880 /* HeadLink.swift in Sources */,
 				B06211CA4F64C12F9DBDA2A8 /* HeadTracking.swift in Sources */,
@@ -366,6 +369,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EBE7DAF7013B37186BE0829 /* Edition.swift in Sources */,
 				A320C7F1C661C328BDFCF3EC /* HeadTracking.swift in Sources */,
 				EF122A4E3049AA0154575133 /* Localization.swift in Sources */,
 				1351F8A17A69BF215667E51F /* MediaRemote.swift in Sources */,
@@ -393,7 +397,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "$(SC_WATCH_ENTITLEMENTS)";
-				INFOPLIST_FILE = Watch/Info.plist;
+				INFOPLIST_FILE = "$(SC_WATCH_INFOPLIST)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(SC_BUNDLE_ID).watchkitapp";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -422,7 +426,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "$(SC_WATCH_ENTITLEMENTS)";
-				INFOPLIST_FILE = Watch/Info.plist;
+				INFOPLIST_FILE = "$(SC_WATCH_INFOPLIST)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(SC_BUNDLE_ID).watchkitapp";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;

@@ -14,7 +14,17 @@ SC_PRIVATE_API = PRIVATE_MEDIAREMOTE
 // ワークアウトモード（HealthKit）の権限。無料の Apple ID で署名できない場合は空にする
 SC_WATCH_ENTITLEMENTS = Watch/SpatialCueWatch.entitlements
 
+// 安定版（TestFlight で配る版）にするときは STABLE_EDITION にする。
+// 審査で指摘されそうな機能（ワークアウトモード・延長実行・無音再生での常駐）を外す。Tools/testflight.sh が設定する
+SC_STABLE =
+
+// Watch アプリの Info.plist。安定版では Tools/testflight.sh がバックグラウンドモードを除いたものに差し替える
+SC_WATCH_INFOPLIST = Watch/Info.plist
+
+// ホーム画面に表示される名前
+SC_DISPLAY_NAME = SpatialCue
+
 #include? "Local.xcconfig"
 
 DEVELOPMENT_TEAM = $(SC_TEAM_ID)
-SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) $(SC_PRIVATE_API)
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) $(SC_PRIVATE_API) $(SC_STABLE)

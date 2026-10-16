@@ -28,7 +28,7 @@ final class PhoneHub: NSObject, ObservableObject {
     @Published var calibration = HeadCalibration.load(key: PhoneHub.calibrationKey) {
         didSet { calibration.save(key: Self.calibrationKey) }
     }
-    @Published var keepAliveInBackground = UserDefaults.standard.bool(forKey: "keepAlive") {
+    @Published var keepAliveInBackground = !Edition.isStable && UserDefaults.standard.bool(forKey: "keepAlive") {
         didSet {
             UserDefaults.standard.set(keepAliveInBackground, forKey: "keepAlive")
             updateKeepAlive()
@@ -327,7 +327,7 @@ final class PhoneHub: NSObject, ObservableObject {
     }
 
     private func updateKeepAlive() {
-        keepAliveInBackground ? silence.start() : silence.stop()
+        keepAliveInBackground && !Edition.isStable ? silence.start() : silence.stop()
     }
 
     private func refreshWatchState(_ s: WCSession) {

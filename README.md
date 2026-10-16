@@ -73,6 +73,19 @@ AirPods switch the audio output back to the speaker when you take them out, so S
   - Pinching once again ends the interruption. Whether the app resumes depends on that app.
   - This feature can be left out of the build (see **Build settings** below).
 
+## Editions
+
+| | Stable (TestFlight) | Full (build from source) |
+|---|---|---|
+| Palm gestures, time, Double Tap, flick, Digital Crown, safety settings | ✓ | ✓ |
+| Music app control | ✓ | ✓ |
+| Controlling other apps (private API) | – | ✓ |
+| Workout mode (HealthKit) | – | ✓ |
+| Extended runtime (keeps detecting for up to an hour) | – | ✓ |
+| Keeping the iPhone app alive with silent audio | – | ✓ |
+
+The stable edition leaves out features that are likely to be flagged in App Review, so it only works while SpatialCue is open on the Watch. Tip: on the Watch, set Settings → General → Return to Clock → SpatialCue to **Return to App** so it stays open when you lower your wrist.
+
 ## Installing (build from source)
 
 iOS and watchOS apps must be signed by Apple, so you build them in Xcode on a Mac with your own Apple ID.
@@ -131,7 +144,7 @@ In my experience workout mode drains the battery noticeably, so I use the defaul
    ./Tools/testflight.sh            # archive and export an .ipa to build/testflight
    ./Tools/testflight.sh --upload   # archive and upload to App Store Connect
    ```
-   The script builds without the private API, and uses the date and time as the build number so every upload is unique.
+   The script builds the **stable edition** (`Tools/stable-settings.sh`), and uses the date and time as the build number so every upload is unique.
 
 ## How it works
 
