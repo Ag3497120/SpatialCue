@@ -2,6 +2,12 @@
 
 SpatialCue brings the Apple Vision Pro "look at your hand, flip your palm" interaction to **Apple Watch motion sensors and AirPods head tracking**. Without looking at a screen, you can hear the time and control the music playing on your iPhone using wrist movements and finger pinches.
 
+<p align="center">
+  <a href="docs/demo.mp4"><img src="docs/demo.webp" width="360" alt="Top: Apple Vision Pro. Bottom: SpatialCue on Apple Watch and AirPods."></a>
+  <br>
+  <sub>Top: Apple Vision Pro. Bottom: SpatialCue on Apple Watch + AirPods. Click for the MP4.</sub>
+</p>
+
 - An Apple Watch app (gesture recognition, haptics, time) and an iPhone app (AirPods head-motion relay, settings, music control) work together.
 - Requirements: iPhone with iOS 17 or later, Apple Watch with watchOS 11 or later. AirPods Pro / Max / 3rd generation or later are recommended.
 - The UI and speech are available in English and Japanese, and you can switch them independently.
