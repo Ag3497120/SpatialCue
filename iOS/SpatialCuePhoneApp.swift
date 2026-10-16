@@ -155,12 +155,13 @@ private struct SoundSettingsView: View {
                         ForEach(SpeechLanguageChoice.allCases) { Text($0.title).tag($0) }
                     }
                 }
+                Toggle(tr("「ポン」の音", "\"Pop\" sound"), isOn: $hub.settings.popSound)
                 Picker(tr("音の出力先", "Sound output"), selection: $hub.settings.soundOutput) {
                     ForEach(SoundOutput.allCases) { Text($0.title).tag($0) }
                 }
             } footer: {
-                Text(tr("読み上げと「ポン」の効果音を鳴らす場所です。「iPhone」なら iPhone のスピーカーかつないでいるイヤホンで、「Apple Watch のスピーカー」なら Watch から鳴らします。Watch のスピーカーは、Watch の画面が点いている間だけ鳴ります。読み上げをオフにすると、振動と効果音だけで伝えます。",
-                        "Where speech and the \"pop\" sound play. \"iPhone\" uses the iPhone speaker or connected headphones; \"Apple Watch speaker\" plays from the Watch, but only while the Watch screen is on. With speech off, only haptics and sound effects are used."))
+                Text(tr("「ポン」は手のひらを見たときに鳴る音で、オフにしても軽い振動は残ります。出力先は、読み上げと「ポン」の効果音を鳴らす場所です。「iPhone」なら iPhone のスピーカーかつないでいるイヤホンで、「Apple Watch のスピーカー」なら Watch から鳴らします。Watch のスピーカーは、Watch の画面が点いている間だけ鳴ります。読み上げをオフにすると、振動と効果音だけで伝えます。",
+                        "The pop plays when you look at your palm; with it off, a light tap remains. Sound output is where speech and the pop play. \"iPhone\" uses the iPhone speaker or connected headphones; \"Apple Watch speaker\" plays from the Watch, but only while the Watch screen is on. With speech off, only haptics and sound effects are used."))
             }
             Section(tr("言語", "Language")) {
                 Picker(tr("アプリの言語", "App language"), selection: $hub.settings.appLanguage) {

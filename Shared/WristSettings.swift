@@ -87,6 +87,7 @@ struct WristSettings: Codable, Equatable {
     // 読み上げ
     var speechEnabled = true            // オフにすると読み上げを一切しない（効果音と振動は残る）
     var soundOutput = SoundOutput.auto
+    var popSound = true                 // 手のひらを見たときの「ポン」の音（オフでも振動は残る）
 
     // 時刻
     var timeStyle = TimeAnnounceStyle.both

@@ -404,7 +404,7 @@ final class AppModel: ObservableObject {
 
     private func pop() {
         WKInterfaceDevice.current().play(.click)
-        guard canUseSound else { return }
+        guard canUseSound, settings.popSound else { return }
         if settings.soundOutput == .watch || !phone.pop() {
             TimeTeller.activateSpeaker()
             sfx.playPop()

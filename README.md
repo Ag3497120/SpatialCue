@@ -106,11 +106,13 @@ iOS and watchOS apps must be signed by Apple, so you build them in Xcode on a Ma
    cp Config/Local.example.xcconfig Config/Local.xcconfig
    ```
 3. **Fill in your values**: set `SC_TEAM_ID` and `SC_BUNDLE_ID` (a unique ID such as `com.yourname.spatialcue`) in `Config/Local.xcconfig`.
-4. **Run**: open `SpatialCue.xcodeproj`, choose the `SpatialCue` scheme with your paired iPhone as the destination, and run.
+4. **Run**: either
+   - `./Tools/install.sh` builds and installs on your iPhone and Apple Watch in one step (`--stable` for the stable edition), or
+   - open `SpatialCue.xcodeproj`, choose the `SpatialCue` scheme with your paired iPhone as the destination, and run.
    - If the Watch app isn't installed automatically, run the `SpatialCueWatch` scheme with your Apple Watch as the destination.
    - Developer Mode must be on for both the iPhone and the Watch (Settings → Privacy & Security).
 
-**With a free Apple ID**, the signature expires after 7 days and you need to build again. If signing fails for workout mode (HealthKit), clear `SC_WATCH_ENTITLEMENTS` (below).
+**With a free Apple ID**, the signature expires after 7 days. Run `./Tools/install.sh` again to renew it, or let the Mac do it for you: `./Tools/schedule-reinstall.sh on` checks every day and reinstalls when 6+ days have passed (the Mac must be on, with the iPhone and Watch nearby). If you use [Claude Code](https://claude.com/claude-code), just ask it to "install SpatialCue"; the repo includes a skill (`.claude/skills/install-spatialcue`) that runs the script and handles common errors. If signing fails for workout mode (HealthKit), clear `SC_WATCH_ENTITLEMENTS` (below).
 
 ### Build settings (`Config/Local.xcconfig`)
 
