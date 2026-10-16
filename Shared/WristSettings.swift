@@ -91,6 +91,7 @@ struct WristSettings: Codable, Equatable {
     // 時刻
     var timeStyle = TimeAnnounceStyle.both
     var hapticPattern = HapticPattern.digits
+    var timeDelay = 0.0                 // 手のひらを返してから時刻を伝え始めるまでの秒数
 
     // 常駐
     var workoutMode = false

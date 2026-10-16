@@ -111,13 +111,33 @@ private struct TimeSettingsView: View {
                 Text(hub.settings.hapticPattern.explanation)
             }
             Section {
+                VStack(alignment: .leading) {
+                    Text(tr("手のひらを返してから \(Self.seconds(hub.settings.timeDelay))",
+                            "Start \(Self.secondsEN(hub.settings.timeDelay)) after flipping your palm"))
+                    Slider(value: $hub.settings.timeDelay, in: 0...3, step: 0.25)
+                }
+            } header: {
+                Text(tr("始めるまでの時間", "Delay"))
+            } footer: {
+                Text(tr("手のひらを返してから、振動と読み上げを始めるまでの時間です。待っている間に手を下ろすと取り消します。待つ時間が長いと、その間に Watch の画面が消えて伝わらないことがあります。",
+                        "How long to wait after you flip your palm before the vibration and speech start. Lowering your hand while waiting cancels it. With a long delay, the Watch screen may turn off before the time is told."))
+            }
+            Section {
                 Button(tr("Watch で試す", "Try on Watch")) { hub.sendCommand(.testTime) }
             } footer: {
-                Text(tr("「読み上げ」を選んでいても、読み上げがオフのときは振動で伝えます。",
-                        "Even with \"Voice\", the time is vibrated when speech is off."))
+                Text(tr("「試す」はすぐに鳴らします。「読み上げ」を選んでいても、読み上げがオフのときは振動で伝えます。",
+                        "\"Try\" plays right away. Even with \"Voice\", the time is vibrated when speech is off."))
             }
         }
         .navigationTitle(tr("時刻と振動", "Time & haptics"))
+    }
+
+    static func seconds(_ v: Double) -> String {
+        v <= 0 ? "すぐに始める" : String(format: "%g 秒後に始める", v)
+    }
+
+    static func secondsEN(_ v: Double) -> String {
+        v <= 0 ? "right away" : String(format: "%g s", v)
     }
 }
 

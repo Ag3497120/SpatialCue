@@ -76,6 +76,7 @@ final class AppModel: ObservableObject {
     let airController = AirController()
     private var cancellables: Set<AnyCancellable> = []
     private var started = false
+    private var readoutTask: Task<Void, Never>?
     private var fullRateRequested = false
 
     var motionAvailable: Bool { pipeline.isAvailable }
@@ -110,7 +111,7 @@ final class AppModel: ObservableObject {
             stopSpeaking: { [weak self] in self?.stopSpeaking() },
             pop: { [weak self] in self?.pop() },
             tick: { WKInterfaceDevice.current().play(.click) },
-            startTimeReadout: { [weak self] in self?.startTimeReadout() },
+            startTimeReadout: { [weak self] in self?.startTimeReadoutAfterFlip() },
             stopTimeReadout: { [weak self] in self?.stopTimeReadout() },
             setVolume: { [weak self] v in self?.setSystemVolume(v) },
             menu: { [weak self] a in self?.menuAction(a) })
@@ -351,6 +352,21 @@ final class AppModel: ObservableObject {
         showToast(Date().formatted(date: .omitted, time: .shortened))
     }
 
+    /// 手のひらを返したとき: 設定した秒数だけ待ってから時刻を伝える。待っている間に姿勢を崩せば取り消す
+    private func startTimeReadoutAfterFlip() {
+        readoutTask?.cancel()
+        let delay = settings.timeDelay
+        guard delay > 0 else {
+            startTimeReadout()
+            return
+        }
+        readoutTask = Task { [weak self] in
+            try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+            guard !Task.isCancelled else { return }
+            self?.startTimeReadout()
+        }
+    }
+
     private func startTimeReadout() {
         let style = settings.timeStyle
         // 読み上げだけの設定でも、読み上げがオフ・音を出せないときは振動に切り替える
@@ -359,6 +375,8 @@ final class AppModel: ObservableObject {
     }
 
     private func stopTimeReadout() {
+        readoutTask?.cancel()
+        readoutTask = nil
         teller.stopHaptics()
         stopSpeaking()
     }
