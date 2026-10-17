@@ -63,6 +63,12 @@ final class HeadLink: NSObject, ObservableObject {
         }
     }
 
+    /// 頭の向きを使わない設定のときは止める（AirPods と時計の電池を使わない）
+    func stop() {
+        manager.stopDeviceMotionUpdates()
+        directConnected = false
+    }
+
     func captureNeutral() { calibration.neutralPitch = lastPitch }
 
     func captureLook() {

@@ -367,6 +367,12 @@ private struct RunningSettingsView: View {
                 }
             }
             Section {
+                Toggle(tr("省電力モード", "Low Power Mode"), isOn: $hub.settings.lowPower)
+            } footer: {
+                Text(tr("センサーの読み取りを 1 秒 100 回から 50 回に、画面の更新を 1 秒 5 回に減らします。手のひら・表に返す・払う動きの判定には十分です。手首の衝撃でのピンチ推定を使うときと学習の録音中は、自動で 100 回に戻します。",
+                        "Reads the motion sensors 50 times a second instead of 100, and refreshes the screen 5 times a second. That's enough for the palm, flip, and flick gestures. It switches back to 100 automatically for wrist-pinch detection and while recording training data."))
+            }
+            Section {
                 Toggle(tr("腕を下ろしたら省電力", "Save power when arm is down"), isOn: $hub.settings.powerSaving)
             } footer: {
                 Text(Edition.isStable

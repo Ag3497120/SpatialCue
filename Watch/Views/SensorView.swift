@@ -43,6 +43,8 @@ struct SensorView: View {
         }
         .font(.system(size: 13))
         .navigationTitle(tr("センサー", "Sensors"))
+        .onAppear { model.setFastUpdates(true) }
+        .onDisappear { model.setFastUpdates(false) }
     }
 
     private func yesNo(_ b: Bool) -> String { b ? tr("はい", "Yes") : tr("いいえ", "No") }

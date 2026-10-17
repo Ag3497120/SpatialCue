@@ -98,6 +98,7 @@ struct WristSettings: Codable, Equatable {
     var workoutMode = false
     var keepRunning = true
     var powerSaving = true
+    var lowPower = true                 // 省電力モード: センサーの読み取りと画面の更新を減らす
 
     // メディア
     var directMedia = true                   // メニューを省略し、時計でピンチ回数から直接操作する

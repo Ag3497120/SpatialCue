@@ -2,6 +2,7 @@ import SwiftUI
 
 struct RootView: View {
     @EnvironmentObject private var model: AppModel
+    @Environment(\.isLuminanceReduced) private var dimmed
 
     var body: some View {
         NavigationStack(path: $model.path) {
@@ -13,7 +14,7 @@ struct RootView: View {
                     }
                 }
         }
-        .overlay { GlanceGlow(active: model.reading.glancing || model.reading.palmGaze) }
+        .overlay { GlanceGlow(active: !dimmed && (model.reading.glancing || model.reading.palmGaze)) }
         .overlay {
             if model.air.mode != .idle { VirtualOverlay() }
         }

@@ -4,6 +4,7 @@ import SwiftUI
 /// 主役は音と振動。これは表に返したときや、横から見ている人のための表示。
 struct VirtualOverlay: View {
     @EnvironmentObject private var model: AppModel
+    @Environment(\.isLuminanceReduced) private var dimmed
     @State private var crown = 0.5
     @FocusState private var crownFocused: Bool
 
@@ -55,7 +56,7 @@ struct VirtualOverlay: View {
             }
         case .clock, .volume, .menu:
             VStack(spacing: 6) {
-                TimelineView(.periodic(from: .now, by: 1)) { ctx in
+                TimelineView(.periodic(from: .now, by: dimmed ? 60 : 1)) { ctx in
                     Text(ctx.date, format: .dateTime.hour().minute())
                         .font(.system(size: 40, weight: .semibold, design: .rounded))
                         .monospacedDigit()

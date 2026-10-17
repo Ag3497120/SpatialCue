@@ -6,7 +6,12 @@ extension Vec3 {
     init(_ r: CMRotationRate) { self.init(x: r.x, y: r.y, z: r.z) }
 }
 
-/// 100Hz のモーション取得と検出処理。検出器はモーションキュー上でだけ触り、結果だけをメインへ渡す。
+/// モーションの取得と検出処理。検出器はモーションキュー上でだけ触り、結果だけをメインへ渡す。
+///
+/// 読み取り頻度:
+/// - ピンチ推定（手首の衝撃）を使うとき: 100Hz（衝撃の波形を取るため）
+/// - それ以外: 通常 100Hz、省電力モード 50Hz（手首の姿勢と払う動きには十分）
+/// - 腕を下ろしている間: 通常 3 秒後に 25Hz、省電力モード 2 秒後に 10Hz
 final class SensorPipeline {
     let queue: OperationQueue = {
         let q = OperationQueue()
@@ -16,7 +21,7 @@ final class SensorPipeline {
         return q
     }()
 
-    /// メインスレッドで呼ばれる。reading は約 33Hz とイベント発生時に渡す
+    /// メインスレッドで呼ばれる。reading は画面の更新間隔ごとと、イベント発生時に渡す
     var onUpdate: ((WristReading?, [WristEvent], PinchDetector.Output?) -> Void)?
 
     var isAvailable: Bool { manager.isDeviceMotionAvailable }
@@ -25,14 +30,20 @@ final class SensorPipeline {
     var powerSaving = true
     /// 仮想 UI が動いている間は頻度を下げない
     var keepFullRate = false
+    /// 省電力モード
+    var lowPower = true
+    /// ピンチ推定（手首の衝撃）が必要か。不要なら計算しない
+    var needsPinch = false
+    /// センサー画面を開いている間は画面をなめらかに更新する
+    var fastUpdates = false
     private(set) var currentRate = 100.0
     private var lowSince: TimeInterval?
+    private var lastPublish: TimeInterval = 0
 
     private let manager = CMMotionManager()
     private let wrist = WristGestureDetector()
     private let pinch = PinchDetector()
     private var frame = WristFrame()
-    private var tick = 0
 
     init() {
         wrist.head = {
@@ -63,6 +74,15 @@ final class SensorPipeline {
 
     func setKeepFullRate(_ on: Bool) { queue.addOperation { [self] in keepFullRate = on } }
 
+    func setPower(lowPower: Bool, needsPinch: Bool) {
+        queue.addOperation { [self] in
+            self.lowPower = lowPower
+            self.needsPinch = needsPinch
+        }
+    }
+
+    func setFastUpdates(_ on: Bool) { queue.addOperation { [self] in fastUpdates = on } }
+
     /// 検出器の設定をモーションキュー上で変更する
     func configure(_ body: @escaping (_ wrist: WristGestureDetector, _ pinch: PinchDetector, _ frame: inout WristFrame) -> Void) {
         queue.addOperation { [self] in body(wrist, pinch, &frame) }
@@ -70,11 +90,14 @@ final class SensorPipeline {
 
     private func process(_ s: MotionSample) {
         let events = wrist.feed(s)
-        // ピンチ検出は 100Hz 前提なので、低頻度の間は止める
-        let out = currentRate >= 100 ? pinch.feed(s) : nil
+        // ピンチ推定は 100Hz 前提。使わないときや低頻度の間は計算しない
+        let out = needsPinch && currentRate >= 100 ? pinch.feed(s) : nil
         adjustRate(s.t)
-        tick += 1
-        let sendReading = tick % 3 == 0 || !events.isEmpty
+        // 画面の更新はセンサーの頻度よりずっと少なくてよい（描き直しは電池を使う）
+        let interval = fastUpdates ? 0.03 : (lowPower ? 0.2 : 0.1)
+        let due = s.t - lastPublish >= interval
+        if due { lastPublish = s.t }
+        let sendReading = due || !events.isEmpty
         guard sendReading || out != nil else { return }
         var r: WristReading?
         if sendReading {
@@ -86,16 +109,19 @@ final class SensorPipeline {
 }
 
 extension SensorPipeline {
-    /// 腕を 3 秒下ろしたままなら 25Hz、それ以外は 100Hz
+    /// 腕を下ろしたままなら低い頻度、それ以外は通常の頻度
     fileprivate func adjustRate(_ t: TimeInterval) {
+        let active: Double = needsPinch ? 100 : (lowPower ? 50 : 100)
+        let idle: Double = lowPower ? 10 : 25
+        let idleAfter: Double = lowPower ? 2 : 3
         let armDown = wrist.reading.pose == .vertical && wrist.reading.elevation < 0
         if powerSaving && armDown && !keepFullRate {
             let since = lowSince ?? t
             lowSince = since
-            if t - since > 3 && currentRate != 25 { setRate(25) }
+            if t - since > idleAfter && currentRate != idle { setRate(idle) }
         } else {
             lowSince = nil
-            if currentRate != 100 { setRate(100) }
+            if currentRate != active { setRate(active) }
         }
     }
 

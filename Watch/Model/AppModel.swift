@@ -134,7 +134,7 @@ final class AppModel: ObservableObject {
         guard !started else { return }
         started = true
         phone.activate()
-        headLink.start()
+        if settings.useHeadTracking { headLink.start() }
         pipeline.start()
         becameActive()
     }
@@ -148,6 +148,9 @@ final class AppModel: ObservableObject {
     private func apply(_ s: WristSettings) {
         guard s != settings else { return }
         let residencyChanged = s.workoutMode != settings.workoutMode || s.keepRunning != settings.keepRunning
+        if started && s.useHeadTracking != settings.useHeadTracking {
+            s.useHeadTracking ? headLink.start() : headLink.stop()
+        }
         s.applyLanguage()
         settings = s
         s.save()
@@ -209,6 +212,7 @@ final class AppModel: ObservableObject {
         let flickThr = 8.0 - 5.0 * s.flickSensitivity       // 感度 0 → 8 rad/s, 1 → 3 rad/s
         let palm = palmCalibration
         pipeline.setPowerSaving(s.powerSaving)
+        pipeline.setPower(lowPower: s.lowPower, needsPinch: s.wristPinch || recordingLabel != nil)
         airController.config.invertX = s.invertVolumeX
         airController.config.maxVolume = s.maxVolume
         airController.config.directMedia = s.directMedia
@@ -329,6 +333,9 @@ final class AppModel: ObservableObject {
         airController.setVolume(v, t: ProcessInfo.processInfo.systemUptime)
         syncAir()
     }
+
+    /// センサー画面を開いている間だけ、画面の更新をなめらかにする
+    func setFastUpdates(_ on: Bool) { pipeline.setFastUpdates(on) }
 
     func back() {
         if airController.isActive {
@@ -479,12 +486,14 @@ final class AppModel: ObservableObject {
     func startRecording(_ label: GestureLabel) {
         recordingLabel = label
         recordedThisRun = 0
+        pushConfig()   // 録音には 100Hz のピンチ検出が必要
         pipeline.configure { _, p, _ in p.mode = label == .none ? .recordFree : .recordOnset }
         WKInterfaceDevice.current().play(.start)
     }
 
     func stopRecording() {
         recordingLabel = nil
+        pushConfig()
         pipeline.configure { _, p, _ in p.mode = .detect }
         training.commit()
         WKInterfaceDevice.current().play(.stop)

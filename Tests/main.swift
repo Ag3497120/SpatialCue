@@ -17,6 +17,7 @@ func gravity(roll: Double, elev: Double) -> Vec3 {
 
 final class Sim {
     var t = 0.0
+    var dt = 0.01   // サンプリング間隔（0.02 = 50Hz）
     var roll = 0.0, elev = -80.0
     var wrist = WristGestureDetector()
     var pinch = PinchDetector()
@@ -37,13 +38,13 @@ final class Sim {
         case .window(let w)?: windows.append(w)
         case nil: break
         }
-        t += 0.01
+        t += dt
     }
 
-    func hold(_ seconds: Double) { for _ in 0..<Int(seconds * 100) { step() } }
+    func hold(_ seconds: Double) { for _ in 0..<Int((seconds / dt).rounded()) { step() } }
 
     func move(roll r: Double? = nil, elev e: Double? = nil, over seconds: Double) {
-        let n = Int(seconds * 100)
+        let n = max(Int((seconds / dt).rounded()), 1)
         let r0 = roll, e0 = elev, r1 = r ?? roll, e1 = e ?? elev
         let gyroX = (r1 - r0) * .pi / 180 / seconds
         for i in 1...n {
@@ -148,6 +149,20 @@ do {
     s.wrist.config.useHead = false
     s.move(roll: 175, elev: 15, over: 0.5); s.hold(0.6)
     check(s.count(.palmGazeBegan) == 1, "頭の向きを使わない設定では、手首だけで手のひらの判定をする")
+}
+
+do {
+    // 省電力モード（50Hz）でも手首のジェスチャーを判定できる
+    let s = Sim()
+    s.dt = 0.02
+    s.hold(1)
+    s.move(roll: 0, elev: 10, over: 0.4); s.hold(0.5)
+    s.move(roll: 175, over: 0.25); s.hold(0.6)
+    s.move(roll: 0, over: 0.2); s.hold(0.3)
+    for _ in 0..<3 { s.step(gyro: Vec3(x: 0, y: 0, z: 7)) }
+    s.hold(0.3)
+    check(s.count(.glanceBegan) >= 1 && s.count(.palmGazeBegan) == 1 && s.count(.flipToFace) == 1 && s.events.contains(.flick(1)),
+          "50Hz（省電力モード）でも 見る・手のひら・表に返す・払う を判定")
 }
 
 print("■ つまむ検出（未学習ヒューリスティック）")

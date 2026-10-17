@@ -3,11 +3,12 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject private var model: AppModel
     @EnvironmentObject private var training: TrainingStore
+    @Environment(\.isLuminanceReduced) private var dimmed
 
     var body: some View {
         ScrollView {
             VStack(spacing: 6) {
-                TimelineView(.periodic(from: .now, by: 1)) { ctx in
+                TimelineView(.periodic(from: .now, by: dimmed ? 60 : 1)) { ctx in
                     VStack(spacing: 0) {
                         Text(ctx.date, format: .dateTime.hour().minute())
                             .font(.system(size: 44, weight: .semibold, design: .rounded))

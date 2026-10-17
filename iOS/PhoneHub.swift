@@ -45,6 +45,7 @@ final class PhoneHub: NSObject, ObservableObject {
             settings.applyLanguage()
             settings.save()
             pushSettings()
+            if settings.useHeadTracking != oldValue.useHeadTracking { updateHeadTracking() }
         }
     }
 
@@ -94,15 +95,24 @@ final class PhoneHub: NSObject, ObservableObject {
         headphones.delegate = self
         motionAvailable = headphones.isDeviceMotionAvailable
         refreshAuthorization()
-        if motionAvailable {
+        updateHeadTracking()
+        if MPMediaLibrary.authorizationStatus() == .notDetermined { MPMediaLibrary.requestAuthorization { _ in } }
+        refreshExports()
+        updateKeepAlive()
+    }
+
+    /// 頭の向きを使う設定のときだけ AirPods のモーションを読む（使わないなら電池も通信も使わない）
+    private func updateHeadTracking() {
+        guard motionAvailable else { return }
+        if settings.useHeadTracking {
+            guard !headphones.isDeviceMotionActive else { return }
             headphones.startDeviceMotionUpdates(to: .main) { [weak self] m, _ in
                 guard let m else { return }
                 MainActor.assumeIsolated { self?.handle(m) }
             }
+        } else {
+            headphones.stopDeviceMotionUpdates()
         }
-        if MPMediaLibrary.authorizationStatus() == .notDetermined { MPMediaLibrary.requestAuthorization { _ in } }
-        refreshExports()
-        updateKeepAlive()
     }
 
     private func refreshAuthorization() {
